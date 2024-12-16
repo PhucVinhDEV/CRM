@@ -1,0 +1,134 @@
+LOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINEDLOG_PATTERN_IS_UNDEFINED[34m2024-11-20 17:01:12[0;39m [main] INFO  c.example.EasyJob.EasyJobApplication - Starting EasyJobApplication using Java 21.0.2 with PID 24064 (D:\Work\EasyJob\EasyJob\EasyJob\target\classes started by tpvin in D:\Work\EasyJob\EasyJob\EasyJob)
+[34m2024-11-20 17:01:12[0;39m [main] INFO  c.example.EasyJob.EasyJobApplication - The following 1 profile is active: "dev"
+[34m2024-11-20 17:01:13[0;39m [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[34m2024-11-20 17:01:13[0;39m [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 40 ms. Found 1 JPA repository interface.
+[34m2024-11-20 17:01:13[0;39m [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8008 (http)
+[34m2024-11-20 17:01:13[0;39m [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8008"]
+[34m2024-11-20 17:01:13[0;39m [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[34m2024-11-20 17:01:13[0;39m [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.31]
+[34m2024-11-20 17:01:13[0;39m [main] INFO  o.a.c.c.C.[.[localhost].[/bitznomad] - Initializing Spring embedded WebApplicationContext
+[34m2024-11-20 17:01:13[0;39m [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1330 ms
+[39m2024-11-20 17:01:13[0;39m [main] DEBUG o.s.w.f.ServerHttpObservationFilter - Filter 'webMvcObservationFilter' configured for use
+[34m2024-11-20 17:01:13[0;39m [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+[34m2024-11-20 17:01:13[0;39m [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.3.Final
+[34m2024-11-20 17:01:13[0;39m [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[34m2024-11-20 17:01:14[0;39m [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+[34m2024-11-20 17:01:14[0;39m [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[34m2024-11-20 17:01:14[0;39m [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@49f41c2e
+[34m2024-11-20 17:01:14[0;39m [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[31m2024-11-20 17:01:14[0;39m [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[31m2024-11-20 17:01:14[0;39m [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+[34m2024-11-20 17:01:15[0;39m [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[34m2024-11-20 17:01:15[0;39m [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[31m2024-11-20 17:01:15[0;39m [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[31m2024-11-20 17:01:15[0;39m [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 6be9c6e4-b9dd-42ae-8d30-5a72e592fec8
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+[34m2024-11-20 17:01:15[0;39m [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+[39m2024-11-20 17:01:15[0;39m [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 7 mappings in 'requestMappingHandlerMapping'
+[39m2024-11-20 17:01:15[0;39m [main] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+[34m2024-11-20 17:01:15[0;39m [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+[39m2024-11-20 17:01:16[0;39m [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+[39m2024-11-20 17:01:16[0;39m [main] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+[34m2024-11-20 17:01:16[0;39m [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8008"]
+[34m2024-11-20 17:01:16[0;39m [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8008 (http) with context path '/bitznomad'
+[34m2024-11-20 17:01:16[0;39m [main] INFO  c.example.EasyJob.EasyJobApplication - Started EasyJobApplication in 4.544 seconds (process running for 5.04)
+[34m2024-11-20 17:01:16[0;39m [RMI TCP Connection(3)-192.168.131.1] INFO  o.a.c.c.C.[.[localhost].[/bitznomad] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[34m2024-11-20 17:01:16[0;39m [RMI TCP Connection(3)-192.168.131.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[39m2024-11-20 17:01:16[0;39m [RMI TCP Connection(3)-192.168.131.1] DEBUG o.s.web.servlet.DispatcherServlet - Detected StandardServletMultipartResolver
+[39m2024-11-20 17:01:16[0;39m [RMI TCP Connection(3)-192.168.131.1] DEBUG o.s.web.servlet.DispatcherServlet - Detected AcceptHeaderLocaleResolver
+[39m2024-11-20 17:01:16[0;39m [RMI TCP Connection(3)-192.168.131.1] DEBUG o.s.web.servlet.DispatcherServlet - Detected FixedThemeResolver
+[39m2024-11-20 17:01:16[0;39m [RMI TCP Connection(3)-192.168.131.1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@38682845
+[39m2024-11-20 17:01:16[0;39m [RMI TCP Connection(3)-192.168.131.1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.support.SessionFlashMapManager@348b26e0
+[39m2024-11-20 17:01:16[0;39m [RMI TCP Connection(3)-192.168.131.1] DEBUG o.s.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+[34m2024-11-20 17:01:16[0;39m [RMI TCP Connection(3)-192.168.131.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+[34m2024-11-20 17:03:09[0;39m [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+[34m2024-11-20 17:03:09[0;39m [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[34m2024-11-20 17:03:09[0;39m [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[34m2024-11-20 17:08:23[0;39m [main] INFO  c.example.EasyJob.EasyJobApplication - Starting EasyJobApplication using Java 21.0.2 with PID 23404 (D:\Work\EasyJob\EasyJob\EasyJob\target\classes started by tpvin in D:\Work\EasyJob\EasyJob\EasyJob)
+[34m2024-11-20 17:08:23[0;39m [main] INFO  c.example.EasyJob.EasyJobApplication - The following 1 profile is active: "dev"
+[34m2024-11-20 17:08:23[0;39m [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[34m2024-11-20 17:08:23[0;39m [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 38 ms. Found 1 JPA repository interface.
+[34m2024-11-20 17:08:24[0;39m [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8008 (http)
+[34m2024-11-20 17:08:24[0;39m [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8008"]
+[34m2024-11-20 17:08:24[0;39m [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[34m2024-11-20 17:08:24[0;39m [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.31]
+[34m2024-11-20 17:08:24[0;39m [main] INFO  o.a.c.c.C.[.[localhost].[/bitznomad] - Initializing Spring embedded WebApplicationContext
+[34m2024-11-20 17:08:24[0;39m [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1281 ms
+[39m2024-11-20 17:08:24[0;39m [main] DEBUG o.s.w.f.ServerHttpObservationFilter - Filter 'webMvcObservationFilter' configured for use
+[34m2024-11-20 17:08:24[0;39m [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+[34m2024-11-20 17:08:24[0;39m [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.3.Final
+[34m2024-11-20 17:08:24[0;39m [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[34m2024-11-20 17:08:24[0;39m [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+[34m2024-11-20 17:08:24[0;39m [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[34m2024-11-20 17:08:25[0;39m [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@107ebdad
+[34m2024-11-20 17:08:25[0;39m [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[31m2024-11-20 17:08:25[0;39m [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[31m2024-11-20 17:08:25[0;39m [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+[34m2024-11-20 17:08:25[0;39m [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[34m2024-11-20 17:08:25[0;39m [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[31m2024-11-20 17:08:26[0;39m [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[31m2024-11-20 17:08:26[0;39m [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: fa4d8db9-1e68-4070-a45b-4d25f10a11fc
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+[34m2024-11-20 17:08:26[0;39m [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+[39m2024-11-20 17:08:26[0;39m [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 7 mappings in 'requestMappingHandlerMapping'
+[39m2024-11-20 17:08:26[0;39m [main] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+[34m2024-11-20 17:08:26[0;39m [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+[39m2024-11-20 17:08:26[0;39m [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+[39m2024-11-20 17:08:26[0;39m [main] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+[34m2024-11-20 17:08:26[0;39m [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8008"]
+[34m2024-11-20 17:08:26[0;39m [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8008 (http) with context path '/bitznomad'
+[34m2024-11-20 17:08:26[0;39m [main] INFO  c.example.EasyJob.EasyJobApplication - Started EasyJobApplication in 4.19 seconds (process running for 4.713)
+[34m2024-11-20 17:08:27[0;39m [RMI TCP Connection(2)-192.168.131.1] INFO  o.a.c.c.C.[.[localhost].[/bitznomad] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[34m2024-11-20 17:08:27[0;39m [RMI TCP Connection(2)-192.168.131.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[39m2024-11-20 17:08:27[0;39m [RMI TCP Connection(2)-192.168.131.1] DEBUG o.s.web.servlet.DispatcherServlet - Detected StandardServletMultipartResolver
+[39m2024-11-20 17:08:27[0;39m [RMI TCP Connection(2)-192.168.131.1] DEBUG o.s.web.servlet.DispatcherServlet - Detected AcceptHeaderLocaleResolver
+[39m2024-11-20 17:08:27[0;39m [RMI TCP Connection(2)-192.168.131.1] DEBUG o.s.web.servlet.DispatcherServlet - Detected FixedThemeResolver
+[39m2024-11-20 17:08:27[0;39m [RMI TCP Connection(2)-192.168.131.1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@69f35d31
+[39m2024-11-20 17:08:27[0;39m [RMI TCP Connection(2)-192.168.131.1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.support.SessionFlashMapManager@34949460
+[39m2024-11-20 17:08:27[0;39m [RMI TCP Connection(2)-192.168.131.1] DEBUG o.s.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+[34m2024-11-20 17:08:27[0;39m [RMI TCP Connection(2)-192.168.131.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/bitznomad/swagger", parameters={}
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to org.springdoc.webmvc.ui.SwaggerWelcomeWebMvc#redirectToUi(HttpServletRequest)
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json;q=0.8', given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8, application/signed-exchange;v=b3;q=0.7] and supported [application/json, application/*+json]
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Nothing to write: null body
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 302 FOUND
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - GET "/bitznomad/swagger-ui/index.html", parameters={}
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-2] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - GET "/bitznomad/swagger-ui/swagger-ui.css", parameters={}
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-3] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - GET "/bitznomad/swagger-ui/swagger-ui-bundle.js", parameters={}
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - GET "/bitznomad/swagger-ui/swagger-initializer.js", parameters={}
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - GET "/bitznomad/swagger-ui/swagger-ui-standalone-preset.js", parameters={}
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - GET "/bitznomad/swagger-ui/index.css", parameters={}
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-7] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-5] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-6] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-4] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - GET "/bitznomad/v3/api-docs/swagger-config", parameters={}
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-8] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to org.springdoc.webmvc.ui.SwaggerConfigResource#openapiJson(HttpServletRequest)
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json]
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [{configUrl=/bitznomad/v3/api-docs/swagger-config, oauth2RedirectUrl=http://localhost:8008/bitznomad/ (truncated)...]
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - GET "/bitznomad/v3/api-docs", parameters={}
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-9] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to org.springdoc.webmvc.api.OpenApiWebMvcResource#openapiJson(HttpServletRequest, String, Locale)
+[34m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-9] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 117 ms
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-9] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [application/json, */*] and supported [application/json]
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-9] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [{123, 34, 111, 112, 101, 110, 97, 112, 105, 34, 58, 34, 51, 46, 48, 46, 49, 34, 44, 34, 105, 110, 10 (truncated)...]
+[39m2024-11-20 17:08:29[0;39m [http-nio-8008-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+[34m2024-11-20 17:08:46[0;39m [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+[34m2024-11-20 17:08:46[0;39m [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[34m2024-11-20 17:08:46[0;39m [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

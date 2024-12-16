@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: EasyJob
+  datasource:
+    url: jdbc:mysql://localhost:3306/EasyJobTest?createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: root
+    password: 123123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  data:
+    redis:
+      host: redis-19568.c340.ap-northeast-2-1.ec2.redns.redis-cloud.com
+      port: 19568
+      password: gD9JLj0k1f9gTuJAjyYrY0qiUcSeHwgO
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+  security:
+        jwt:
+          secretKey: OwZdPSFmr0zvDnNkfcaU9SUEG4fsask/qTtmffAIVmYzG1PjCzmiwXZbuJp5NJ9Z
+        AccessExperienceTime: 30  # Thời gian hết hạn Access Token (đơn vị: phút)
+        RefreshExperienceTime: 168  # Thời gian hết hạn Refresh Token (đơn vị: giờ)
+
+
+server:
+  port: 8888
+  servlet:
+    context-path: /bitznomad
+springdoc:
+  swagger-ui:
+    path: /swagger
+    tags-sorter: alpha
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+        http: DEBUG
