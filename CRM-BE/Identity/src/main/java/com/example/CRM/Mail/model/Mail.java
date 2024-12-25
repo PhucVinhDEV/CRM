@@ -1,4 +1,4 @@
-package com.example.CRM.MailAuthen.model;
+package com.example.CRM.Mail.model;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

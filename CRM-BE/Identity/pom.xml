@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>CRM_Main_Module</artifactId>
+	<artifactId>CRM</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>CRM_Main_Module</name>
+	<name>EasyJob</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -111,16 +111,6 @@
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka-test</artifactId>
-			<version>3.2.3</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

@@ -25,16 +25,7 @@ spring:
           secretKey: OwZdPSFmr0zvDnNkfcaU9SUEG4fsask/qTtmffAIVmYzG1PjCzmiwXZbuJp5NJ9Z
         AccessExperienceTime: 30  # Thời gian hết hạn Access Token (đơn vị: phút)
         RefreshExperienceTime: 168  # Thời gian hết hạn Refresh Token (đơn vị: giờ)
-  kafka:
-    bootstrap-servers: ${HOST_IP_ADDRESS:localhost}:9092,${HOST_IP_ADDRESS:localhost}:9093,${HOST_IP_ADDRESS:localhost}:9094  # Đọc từ biến môi trường
-    producer:
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      acks: "-1"
-      retries: 3
-      properties:
-        request.timeout.ms: 5
-        enable.idempotence: true
-        max.in.flight.requests.per.connection: 5
+
 
 server:
   port: 8888
