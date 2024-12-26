@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @Slf4j
 @Validated
-public class Controller {
+public class UserRestController {
 
     private final UserService userService;
 
@@ -66,6 +66,14 @@ public class Controller {
         return ApiReponsese.<PageReponsese<UserDTO>>builder()
                 .result(usersPage)
                 .timestamp(DateTimeUtil.now())
+                .build();
+    }
+    @PostMapping("/forget-password")
+    @PreAuthorize(AuthorizeUtil.NONE)
+    public ApiReponsese<Boolean> processForgotPassword(@RequestParam("email") String email) {
+        return ApiReponsese.<Boolean>builder()
+                .timestamp(DateTimeUtil.now())
+                .result(userService.ForgotPassword(email))
                 .build();
     }
 }
