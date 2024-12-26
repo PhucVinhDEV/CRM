@@ -16,6 +16,7 @@
     <modules>
         <module>Identity</module>
         <module>NotificationService</module>
+        <module>StatisticService</module>
     </modules>
 
     <!-- Define centralized versions -->

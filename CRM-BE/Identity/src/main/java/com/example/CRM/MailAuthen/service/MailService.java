@@ -5,5 +5,4 @@ import com.example.CRM.MailAuthen.util.TypeMailEnum;
 
 public interface MailService {
     Boolean sendWithTemplate(String email, String content, EmailSubjectEnum subject, TypeMailEnum type);
-
 }
