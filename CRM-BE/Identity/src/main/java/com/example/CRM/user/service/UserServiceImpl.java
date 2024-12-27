@@ -1,6 +1,9 @@
 package com.example.CRM.user.service;
 
 import com.example.CRM.MailAuthen.model.Mail;
+import com.example.CRM.MailAuthen.service.MailService;
+import com.example.CRM.MailAuthen.util.EmailSubjectEnum;
+import com.example.CRM.MailAuthen.util.TypeMailEnum;
 import com.example.CRM.common.exception.AppException;
 import com.example.CRM.common.mapper.GenericMapper;
 import com.example.CRM.common.service.ApplicationUrlService;
@@ -15,6 +18,8 @@ import com.example.CRM.user.model.record.ChangePasswordRecord;
 import com.example.CRM.user.model.record.UserRecord;
 import com.example.CRM.user.model.reponsese.UserDTO;
 import com.example.CRM.user.repository.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -35,6 +40,8 @@ public class UserServiceImpl implements UserService {
     private final ApplicationUrlService applicationUrlService;
     private final RedisService redisService;
     private final AuthenticateService authenticateService;
+    private final MailService mailService;
+    private final ObjectMapper objectMapper;
 
     @Override
     public JpaRepository<User, UUID> getRepository() {
@@ -56,7 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean ForgotPassword(String email) {
+    public boolean ForgotPassword(String email) throws JsonProcessingException {
         long exp = System.currentTimeMillis() + 60*15; //15 phut
         User user = userRepository.findByEmail(email).orElseThrow(
                 () -> new AppException(MessageUtil.EMAIL_NOT_EXIST)
@@ -64,11 +71,14 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             String uuid = UUID.randomUUID().toString();
             String url = applicationUrlService.getApplicationUrl() + "/change-password?token=" + uuid;
-            ResetPasswordCache cache = new ResetPasswordCache();
-            cache.setToken(uuid);
-            cache.setExpiryTime(new Timestamp(exp));
-            cache.setUserId(user.getId());
+            ResetPasswordCache resetPasswordCache = new ResetPasswordCache();
+            resetPasswordCache.setToken(uuid);
+            resetPasswordCache.setExpiryTime(new Timestamp(exp));
+            resetPasswordCache.setUserId(user.getId());
+
+            String cache = objectMapper.writeValueAsString(resetPasswordCache);
             redisService.setValueWithTTL(uuid,cache,exp, TimeUnit.SECONDS);
+            mailService.sendWithTemplate(email,url, EmailSubjectEnum.LINK, TypeMailEnum.VERIFY_LINK);
         }
         return false;
     }

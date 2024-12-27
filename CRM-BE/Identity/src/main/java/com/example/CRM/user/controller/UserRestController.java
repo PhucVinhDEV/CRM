@@ -10,6 +10,7 @@ import com.example.CRM.security.util.AuthorizeUtil;
 import com.example.CRM.user.model.record.UserRecord;
 import com.example.CRM.user.model.reponsese.UserDTO;
 import com.example.CRM.user.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,9 +69,10 @@ public class UserRestController {
                 .timestamp(DateTimeUtil.now())
                 .build();
     }
+
     @PostMapping("/forget-password")
     @PreAuthorize(AuthorizeUtil.NONE)
-    public ApiReponsese<Boolean> processForgotPassword(@RequestParam("email") String email) {
+    public ApiReponsese<Boolean> processForgotPassword(@RequestParam("email") String email) throws JsonProcessingException {
         return ApiReponsese.<Boolean>builder()
                 .timestamp(DateTimeUtil.now())
                 .result(userService.ForgotPassword(email))
