@@ -1,6 +1,5 @@
 package com.example.CRM.user.service;
 
-import com.example.CRM.MailAuthen.model.Mail;
 import com.example.CRM.MailAuthen.service.MailService;
 import com.example.CRM.MailAuthen.util.EmailSubjectEnum;
 import com.example.CRM.MailAuthen.util.TypeMailEnum;
@@ -8,8 +7,6 @@ import com.example.CRM.common.exception.AppException;
 import com.example.CRM.common.mapper.GenericMapper;
 import com.example.CRM.common.service.ApplicationUrlService;
 import com.example.CRM.common.util.MessageUtil;
-import com.example.CRM.kafka.util.TopicUtil;
-import com.example.CRM.redis.model.ResetPasswordCache;
 import com.example.CRM.redis.service.RedisService;
 import com.example.CRM.security.service.AuthenticateService;
 import com.example.CRM.user.mapper.UserMapper;
@@ -22,11 +19,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -71,12 +66,9 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             String uuid = UUID.randomUUID().toString();
             String url = applicationUrlService.getApplicationUrl() + "/change-password?token=" + uuid;
-            ResetPasswordCache resetPasswordCache = new ResetPasswordCache();
-            resetPasswordCache.setToken(uuid);
-            resetPasswordCache.setExpiryTime(new Timestamp(exp));
-            resetPasswordCache.setUserId(user.getId());
-            String cache = objectMapper.writeValueAsString(resetPasswordCache);
-            redisService.setValueWithTTL(uuid,cache,exp, TimeUnit.SECONDS);
+
+
+            redisService.setValueWithTTL(uuid,user.getId().toString(),exp, TimeUnit.SECONDS);
             mailService.sendWithTemplate(email,url, EmailSubjectEnum.LINK, TypeMailEnum.VERIFY_LINK);
         }
         return MessageUtil.MAIL_AUTHENTICATION_SUCCESS;
@@ -96,15 +88,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean VerifyLinkChangePassword(String id, String newPassword) {
-        ResetPasswordCache cache  = (ResetPasswordCache) redisService.getValue(id);
-        if (cache != null) {
-            User newUser = userRepository.findById(cache.getUserId()).orElseThrow(
-                    () -> new AppException(MessageUtil.EMAIL_NOT_EXIST)
-            );
-            newUser.setPassword(passwordEncoder.encode(newPassword));
-            userRepository.save(newUser);
-            return true;
-        }
-        return false;
+        Object cacheObject  =  redisService.getValue(id);
+        UUID Userid = UUID.fromString(cacheObject.toString());
+        User newUser = userRepository.findById(Userid).orElseThrow(
+                () -> new AppException(MessageUtil.EMAIL_NOT_EXIST)
+        );
+        newUser.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(newUser);
+        return true;
     }
 }
