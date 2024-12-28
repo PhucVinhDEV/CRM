@@ -17,7 +17,7 @@ import java.util.UUID;
 public interface UserService extends GenericService<User,UserRecord, UserDTO, UUID> {
     @Override
     public UserDTO save(UserRecord record);
-    boolean ForgotPassword(String email) throws JsonProcessingException;
+    String ForgotPassword(String email) throws JsonProcessingException;
     boolean isChangePassword(ChangePasswordRecord changePasswordRecord);
     boolean VerifyLinkChangePassword(String id, String newPassword);
 }

@@ -72,8 +72,8 @@ public class UserRestController {
 
     @PostMapping("/forget-password")
     @PreAuthorize(AuthorizeUtil.NONE)
-    public ApiReponsese<Boolean> processForgotPassword(@RequestParam("email") String email) throws JsonProcessingException {
-        return ApiReponsese.<Boolean>builder()
+    public ApiReponsese<String> processForgotPassword(@RequestParam("email") String email) throws JsonProcessingException {
+        return ApiReponsese.<String>builder()
                 .timestamp(DateTimeUtil.now())
                 .result(userService.ForgotPassword(email))
                 .build();

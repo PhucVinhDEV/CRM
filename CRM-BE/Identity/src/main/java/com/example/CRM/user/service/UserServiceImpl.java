@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean ForgotPassword(String email) throws JsonProcessingException {
+    public String ForgotPassword(String email) throws JsonProcessingException {
         long exp = System.currentTimeMillis() + 60*15; //15 phut
         User user = userRepository.findByEmail(email).orElseThrow(
                 () -> new AppException(MessageUtil.EMAIL_NOT_EXIST)
@@ -75,12 +75,11 @@ public class UserServiceImpl implements UserService {
             resetPasswordCache.setToken(uuid);
             resetPasswordCache.setExpiryTime(new Timestamp(exp));
             resetPasswordCache.setUserId(user.getId());
-
             String cache = objectMapper.writeValueAsString(resetPasswordCache);
             redisService.setValueWithTTL(uuid,cache,exp, TimeUnit.SECONDS);
             mailService.sendWithTemplate(email,url, EmailSubjectEnum.LINK, TypeMailEnum.VERIFY_LINK);
         }
-        return false;
+        return MessageUtil.MAIL_AUTHENTICATION_SUCCESS;
     }
 
     @Override
@@ -94,8 +93,6 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
-
-
 
     @Override
     public boolean VerifyLinkChangePassword(String id, String newPassword) {
