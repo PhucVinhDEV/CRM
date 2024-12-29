@@ -8,7 +8,8 @@ public class EndponitUtil {
     String[] REDIS_SECURITY_ENDPOINTS = {
             "/api/auth/login",
             "/api/auth/refresh",
-            "/api/user/secure-action"
+            "/api/user/secure-action",
+            "/change-password"
     };
     String[] PUBLIC_GET_ENDPOINTS = {};
     String[] PRIVATE_GET_ENDPOINTS = {};

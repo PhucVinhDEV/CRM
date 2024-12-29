@@ -25,6 +25,10 @@ public class MessageUtil {
             = "Trạng thái người dùng không hợp lệ. Trạng thái gồm: " + Arrays.toString(User.StatusVerified.values());
     public static final String INVALID_USER_GENDER
             = "Giới tính người dùng không hợp lệ. Giới tính gồm: " + Arrays.toString(User.Gender.values());
+    public static final String MAIL_AUTHENTICATION_FAILED = "Mail Authentication Failed";
+    public static final String MAIL_AUTHENTICATION_SUCCESS = "Mail Authentication SUCCESFULLY";
+
+
 //    public static final String INVALID_PROJECT_STATUS
 //            = "Trạng thái dự án không hợp lệ. Trạng thái gồm: " + Arrays.toString(Project.Status.values());
 //    public static final String INVALID_TASK_STATUS
