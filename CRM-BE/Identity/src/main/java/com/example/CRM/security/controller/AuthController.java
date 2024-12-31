@@ -1,14 +1,20 @@
 package com.example.CRM.security.controller;
 
 
+import com.example.CRM.Oauth2.service.Oauth2Service;
 import com.example.CRM.common.reponsese.ApiReponsese;
+import com.example.CRM.common.util.DateTimeUtil;
 import com.example.CRM.security.dto.AuthenticationResponse;
 import com.example.CRM.security.service.AuthenticateService;
 import com.example.CRM.security.service.JWTService;
+import com.example.CRM.security.util.AuthorizeUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nimbusds.jose.JOSEException;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -21,6 +27,7 @@ public class AuthController {
 
     private final AuthenticateService authenticateService ;
     private final JWTService jwtService ;
+    private final Oauth2Service oauth2Service;
 
     @PostMapping("/login")
     public ApiReponsese<AuthenticationResponse> login(String username, String password) {
@@ -62,6 +69,15 @@ public class AuthController {
         }
         return ApiReponsese.<Boolean>builder()
                 .result(isValid)
+                .build();
+    }
+
+    @PostMapping("/outbound")
+    @PreAuthorize(AuthorizeUtil.NONE)
+    public ApiReponsese<AuthenticationResponse> outbound(@RequestParam String code) throws JsonProcessingException {
+        return ApiReponsese.<AuthenticationResponse>builder()
+                .timestamp(DateTimeUtil.now())
+                .result(oauth2Service.OutboundService(code))
                 .build();
     }
 }
