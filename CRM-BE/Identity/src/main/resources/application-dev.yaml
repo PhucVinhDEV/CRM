@@ -51,3 +51,8 @@ logging:
       springframework:
         web: DEBUG
         http: DEBUG
+outbound:
+  identity:
+    client-id: 1050382932656-kalm37mis8iqvkhmg4hp8dtne2d0vnas.apps.googleusercontent.com
+    client-secret: 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
+    redirect-uri: https://easyjob.io.vn/authenticate
