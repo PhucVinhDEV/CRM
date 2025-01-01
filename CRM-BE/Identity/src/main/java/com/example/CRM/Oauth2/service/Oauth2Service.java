@@ -16,6 +16,7 @@ import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -54,6 +55,7 @@ class Oauth2ServiceImpl implements Oauth2Service {
 
 
     @Override
+    @Transactional
     public AuthenticationResponse OutboundService(String code) throws JsonProcessingException {
         var response = outboundIdentityClient.exchangeToken(ExchangeTokenRequest.builder()
                 .code(code)
