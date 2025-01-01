@@ -6,6 +6,7 @@ import "./ForgotPasswordStyle.css";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import axios from "../../../components/Localhost/LocalhostServer";
 
 const ForgotPassword = () => {
   //Khởi tạo useRouter
@@ -33,10 +34,13 @@ const ForgotPassword = () => {
   };
 
   //Function sử lý forgot
-  const handleForgotPass = () => {
+  const handleForgotPass = async () => {
     if (validateForm()) {
       const idToast = toast.loading("Vui lòng chờ...");
-      setTimeout(() => {
+      try {
+        const res = await axios.post(
+          `/api/v1/User/forget-password?email=${email}`
+        );
         toast.update(idToast, {
           render: "Vui lòng kiểm tra email để lấy mã OTP",
           type: "success",
@@ -44,9 +48,18 @@ const ForgotPassword = () => {
           autoClose: 5000,
           closeButton: true,
         });
-      }, 500);
-      console.log(email);
-      forward.push("/Auth/OTPForm");
+        console.log(res);
+        forward.push("/Auth/OTPForm");
+      } catch (error) {
+        toast.update(idToast, {
+          render: "Lỗi ",
+          type: "error",
+          isLoading: false,
+          autoClose: 5000,
+          closeButton: true,
+        });
+        console.log(error);
+      }
     }
   };
   return (
@@ -82,9 +95,10 @@ const ForgotPassword = () => {
               />
             </div>
             <Button
-              className="btn-forgot mb-3"
+              className="mb-3"
               fullWidth
               onClick={handleForgotPass}
+              id="btn-forgot"
             >
               Lấy lại mật khẩu
             </Button>

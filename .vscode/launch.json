@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-CRMApplication<CRM_Main_Module>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.CRM.CRMApplication",
+            "projectName": "CRM_Main_Module",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=53193 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=CRM_Main_Module"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-NotificationServiceApplication<NotificationService>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "org.NotificationService.NotificationServiceApplication",
+            "projectName": "NotificationService",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

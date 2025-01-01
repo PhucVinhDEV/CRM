@@ -1,21 +1,22 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useState } from "react";
 import {
   Button,
-  Container,
   FormControl,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  Paper,
-  TextField,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
+
 import "./ResetPasswordStyle.css";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { toast } from "react-toastify";
+import Image from "next/image";
+import axios from "../../../components/Localhost/LocalhostServer";
+import { useRouter } from "next/navigation";
 
 const ResetPassword = () => {
   //State dữ liệu mật khẩu
@@ -98,11 +99,23 @@ const ResetPassword = () => {
     return true;
   };
 
+  //Biến xử lý querry
+  const params = new URLSearchParams(window.location.search);
+  const tokenFromUrl = params.get("token");
+
   //Function reset password
   const handleResetPassword = async () => {
     if (validateForm()) {
       const idToast = toast.loading("Vui lòng chờ...");
-      setTimeout(() => {
+      try {
+        await axios.post(
+          `/change-password?reNewPassword=${password.reNew}&newPassword=${password.new}&token=${tokenFromUrl}`,
+          {
+            reNewPassword: password.reNew,
+            newPassword: password.new,
+            token: tokenFromUrl,
+          }
+        );
         toast.update(idToast, {
           render: "Đổi mật khẩu thành công",
           type: "success",
@@ -110,33 +123,43 @@ const ResetPassword = () => {
           autoClose: 5000,
           closeButton: true,
         });
-      }, 500);
-      console.log(password);
-      fowardUrl.push("/Auth/Form");
+        console.log(password);
+        fowardUrl.push("/Auth/Form");
+      } catch (error) {
+        toast.update(idToast, {
+          render: "Đổi mật khẩu thất bại",
+          type: "error",
+          isLoading: false,
+          autoClose: 5000,
+          closeButton: true,
+        });
+        console.log(error);
+      }
     }
   };
+
   return (
-    <>
-      {/* chế độ lưới canh giữa chiều ngang và dọc đặt chiều cao của phần tử bao ngoài bằng toàn bộ chiều cao màn hình */}
-      <div className="grid place-items-center h-screen">
-        <Container maxWidth="sm">
-          <Paper className="p-5">
-            <div className="text-center mb-5">
-              <h2 className="font-bold text-xl mb-2">Đặt lại mật khẩu</h2>
-            </div>
-            <div className="mb-5">
-              <TextField
-                id="outlined-basic"
-                label="Email"
-                variant="outlined"
-                type="password"
-                // value={password.new}
-                disabled
-                size="small"
-                fullWidth
-                name="email"
-              />
-            </div>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="flex flex-col md:flex-row w-11/12 md:w-3/4 lg:w-2/3 bg-white shadow-lg rounded-lg overflow-hidden">
+        {/* Left Column */}
+        <div className="flex flex-col items-center justify-center w-full md:w-1/2 p-6 bg-gray-50">
+          <div className="flex items-center gap-4 mb-6">
+            <Image
+              src="/logoWeb/Infinity.png"
+              alt="Logo"
+              width={100}
+              height={50}
+              className="rounded-full"
+            />
+            <h1 className="text-2xl font-bold">Việc làm dễ</h1>
+          </div>
+
+          <div className="w-full max-w-md space-y-6">
+            <h2 className="text-xl font-semibold text-center">
+              Thay đổi mật khẩu
+            </h2>
+
+            {/* New Password */}
             <FormControl
               className="mb-5"
               variant="outlined"
@@ -174,6 +197,7 @@ const ResetPassword = () => {
               />
             </FormControl>
 
+            {/* Confirm Password */}
             <FormControl
               className="mb-5"
               variant="outlined"
@@ -212,19 +236,28 @@ const ResetPassword = () => {
             </FormControl>
 
             <Button
-              fullWidth
-              disableElevation
               type="submit"
               variant="contained"
-              id="btn-reset-password"
+              fullWidth
+              className="py-2 mt-4"
               onClick={handleResetPassword}
+              id="btn-reset-password"
             >
-              ĐẶT LẠI MẬT KHẨU
+              Xác nhận
             </Button>
-          </Paper>
-        </Container>
+          </div>
+        </div>
+
+        {/* Right Column */}
+        <div className="hidden md:block w-1/2">
+          <img
+            src="https://www.chas.co.uk/wp-content/uploads/2021/09/How-to-Find-Work-for-Your-Construction-Company.jpg"
+            alt="Decorative Image"
+            className="h-full w-full object-cover"
+          />
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

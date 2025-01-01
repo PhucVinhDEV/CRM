@@ -17,6 +17,8 @@ import KeyIcon from "@mui/icons-material/Key";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import axios from "../../../components/Localhost/LocalhostServer";
+import { useRouter } from "next/navigation";
 
 const Login = ({ setIsChangeForm }) => {
   //State hiển thị mật khẩu
@@ -27,6 +29,8 @@ const Login = ({ setIsChangeForm }) => {
     email: "",
     password: "",
   });
+  //Khởi tạo biến chuyển trang
+  const fowardUrl = useRouter();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -70,9 +74,56 @@ const Login = ({ setIsChangeForm }) => {
   };
 
   //Function xử lý submit
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (validateForm()) {
-      console.log(dataForm);
+      const email = dataForm.email;
+      const password = dataForm.password;
+      const idToast = toast.loading("Vui lòng chờ...");
+      try {
+        const res = await axios.post(
+          `api/auth/v1/login?username=${email}&password=${password}`
+        );
+        if (res.data.status === 1000 && !res.data.hasErrors) {
+          toast.update(idToast, {
+            render: "Đăng nhập thành công",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+            closeButton: true,
+          });
+          fowardUrl.push("/Home");
+          localStorage.setItem(
+            "accessToken",
+            res.data.result.token.access_token
+          );
+          localStorage.setItem(
+            "refreshToken",
+            res.data.result.token.refresh_token
+          );
+        }
+      } catch (error) {
+        console.log(error);
+        if (
+          error.response?.data.status === 500 &&
+          error.response.data.hasErrors
+        ) {
+          toast.update(idToast, {
+            render: error.response.data.errors[0],
+            type: "warning",
+            isLoading: false,
+            autoClose: 5000,
+            closeButton: true,
+          });
+        } else {
+          toast.update(idToast, {
+            render: "Lỗi máy chủ vui lòng thử lại sau",
+            type: "error",
+            isLoading: false,
+            autoClose: 5000,
+            closeButton: true,
+          });
+        }
+      }
     }
   };
   return (
@@ -127,7 +178,9 @@ const Login = ({ setIsChangeForm }) => {
         </FormControl>
       </Box>
       <div className="mb-3 text-end">
-        <Link href="/Auth/ForgotPassword" className="hover:underline">Quên mật khẩu?</Link>
+        <Link href="/Auth/ForgotPassword" className="hover:underline">
+          Quên mật khẩu?
+        </Link>
       </div>
       <div className="mb-3">
         <Button className="btn-sign" fullWidth onClick={handleLogin}>

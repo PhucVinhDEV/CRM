@@ -18,6 +18,8 @@ import com.example.CRM.user.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,8 +28,11 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
-@AllArgsConstructor
+// @AllArgsConstructor
 public class UserServiceImpl implements UserService {
+
+    @Value("${app.reset-password-url}")
+    private String resetPasswordUrl;
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -37,6 +42,25 @@ public class UserServiceImpl implements UserService {
     private final AuthenticateService authenticateService;
     private final MailService mailService;
     private final ObjectMapper objectMapper;
+
+    // Constructor có tham số
+    public UserServiceImpl(UserRepository userRepository,
+            UserMapper userMapper,
+            PasswordEncoder passwordEncoder,
+            ApplicationUrlService applicationUrlService,
+            RedisService redisService,
+            AuthenticateService authenticateService,
+            MailService mailService,
+            ObjectMapper objectMapper) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
+        this.applicationUrlService = applicationUrlService;
+        this.redisService = redisService;
+        this.authenticateService = authenticateService;
+        this.mailService = mailService;
+        this.objectMapper = objectMapper;
+    }
 
     @Override
     public JpaRepository<User, UUID> getRepository() {
@@ -48,7 +72,6 @@ public class UserServiceImpl implements UserService {
         return userMapper;
     }
 
-
     @Override
     public UserDTO save(UserRecord record) {
         User user = userMapper.maptoEntity(record);
@@ -59,17 +82,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String ForgotPassword(String email) throws JsonProcessingException {
-        long exp = System.currentTimeMillis() + 60*15; //15 phut
+        long exp = System.currentTimeMillis() + 60 * 15; // 15 phut
         User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new AppException(MessageUtil.EMAIL_NOT_EXIST)
-        );
+                () -> new AppException(MessageUtil.EMAIL_NOT_EXIST));
         if (user != null) {
             String uuid = UUID.randomUUID().toString();
-            String url = applicationUrlService.getApplicationUrl() + "/change-password?token=" + uuid;
+            // String url = applicationUrlService.getApplicationUrl() +
+            // "/change-password?token=" + uuid;
+            String url = resetPasswordUrl + uuid;
 
-
-            redisService.setValueWithTTL(uuid,user.getId().toString(),exp, TimeUnit.SECONDS);
-            mailService.sendWithTemplate(email,url, EmailSubjectEnum.LINK, TypeMailEnum.VERIFY_LINK);
+            redisService.setValueWithTTL(uuid, user.getId().toString(), exp, TimeUnit.SECONDS);
+            mailService.sendWithTemplate(email, url, EmailSubjectEnum.LINK, TypeMailEnum.VERIFY_LINK);
         }
         return MessageUtil.MAIL_AUTHENTICATION_SUCCESS;
     }
@@ -88,11 +111,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean VerifyLinkChangePassword(String id, String newPassword) {
-        Object cacheObject  =  redisService.getValue(id);
+        Object cacheObject = redisService.getValue(id);
         UUID Userid = UUID.fromString(cacheObject.toString());
         User newUser = userRepository.findById(Userid).orElseThrow(
-                () -> new AppException(MessageUtil.EMAIL_NOT_EXIST)
-        );
+                () -> new AppException(MessageUtil.EMAIL_NOT_EXIST));
         newUser.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(newUser);
         return true;

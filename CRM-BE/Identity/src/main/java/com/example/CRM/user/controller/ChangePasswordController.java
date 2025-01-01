@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @Slf4j
 @AllArgsConstructor
 public class ChangePasswordController {
@@ -24,7 +25,7 @@ public class ChangePasswordController {
     }
 
     @PostMapping("/change-password")
-    @Hidden
+    // @Hidden
     @ResponseBody
     public String changePassword(@RequestParam String reNewPassword, @RequestParam String newPassword,
                                  @RequestParam String token) {
