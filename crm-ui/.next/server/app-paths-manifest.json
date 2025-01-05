@@ -1,0 +1,6 @@
+{
+  "/ManageCustumer/page": "app/ManageCustumer/page.js",
+  "/page": "app/page.js",
+  "/Auth/Form/page": "app/Auth/Form/page.js",
+  "/Auth/ForgotPassword/page": "app/Auth/ForgotPassword/page.js"
+}
