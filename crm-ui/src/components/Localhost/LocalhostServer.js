@@ -8,6 +8,10 @@ const server = axios.create({
   },
 });
 
+const APITinhThanh = axios.create({
+  baseURL: "https://provinces.open-api.vn/",
+});
+
 // Sử dụng Interceptor để thêm token vào request
 server.interceptors.request.use(
   (config) => {
@@ -35,3 +39,4 @@ server.interceptors.request.use(
 // );
 
 export default server;
+export { APITinhThanh };
