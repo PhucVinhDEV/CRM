@@ -1,7 +1,57 @@
-
 spring:
   application:
-    name: EasyJob
+    name: ${CRM_SPRING_APPLICATION_NAME}
+  datasource:
+    url: ${CRM_DATASOURCE_URL}
+    username: ${CRM_DATASOURCE_USERNAME}
+    password: ${CRM_DATASOURCE_PASSWORD}
+    driver-class-name: ${CRM_DATASOURCE_DRIVER}
+  jpa:
+    hibernate:
+      ddl-auto: ${CRM_JPA_HIBERNATE_DDL_AUTO}
+    show-sql: ${CRM_JPA_HIBERNATE_SHOW_SQL}
+  data:
+    redis:
+      host: ${REDIS_CLOUD_HOST}
+      port: ${REDIS_CLOUD_PORT}
+      password: ${REDIS_CLOUD_PASSWORD}
+  #    properties:
+  #      hibernate:
+  #        dialect: org.hibernate.dialect.MySQL8Dialect
+  #        format_sql: true
+  security:
+    jwt:
+      secretKey: ${CRM_JWT_SECRETKEY}
+    AccessExperienceTime: ${CRM_JWT_ACCESSEXPERIENCETIME}  # Thời gian hết hạn Access Token (đơn vị: phút)
+    RefreshExperienceTime: ${CRM_JWT_REFRESHEXPERIENCETIME}  # Thời gian hết hạn Refresh Token (đơn vị: giờ)
+  kafka:
+    bootstrap-servers: ${HOST_IP_ADDRESS:localhost}:9092,${HOST_IP_ADDRESS:localhost}:9093,${HOST_IP_ADDRESS:localhost}:9094  # Đọc từ biến môi trường
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: "-1"
+      retries: 3
+      properties:
+        request.timeout.ms: 5
+        enable.idempotence: true
+        max.in.flight.requests.per.connection: 5
 
 server:
-  port: 8082
+  port: ${CRM_SERVER_PORT}
+  servlet:
+    context-path: ${CRM_PATH}
+springdoc:
+  swagger-ui:
+    path: /swagger
+    tags-sorter: alpha
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+        http: DEBUG
+outbound:
+  identity:
+    client-id: ${CRM_GOOGLE_CLIENT_ID}
+    client-secret: ${CRM_GOOGLE_CLIENT_SECRET}
+    redirect-uri: ${CRM_GOOGLE_REDIRECT_URI}
