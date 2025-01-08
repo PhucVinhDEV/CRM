@@ -2,21 +2,19 @@ package com.example.CRM.CustomerEAV.model;
 
 import com.example.CRM.common.model.BaseEntity;
 import com.example.CRM.common.util.JoinTableUtil;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
 @Entity
-public class NumberAttributeValue extends BaseEntity {
-    @ManyToOne
-    @JoinColumn(name = JoinTableUtil.EAV_MAPPING_CUSTOMER)
-    private Customer customer;
+@Getter
+@Setter
+public class NumberAttributeValue extends AttributeValue {
 
-    @ManyToOne
-    @JoinColumn(name = JoinTableUtil.EAV_MAPPING_ATTRIBUTE)
-    private Attribute attribute;
+    @Column(nullable = false)
+    private Double value;
 
-    private BigDecimal value;
+
 }

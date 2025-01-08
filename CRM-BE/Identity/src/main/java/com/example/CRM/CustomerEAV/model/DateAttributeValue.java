@@ -1,22 +1,20 @@
 package com.example.CRM.CustomerEAV.model;
 
-import com.example.CRM.common.model.BaseEntity;
-import com.example.CRM.common.util.JoinTableUtil;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
-import java.util.Date;
+import com.example.CRM.CustomerEAV.util.TypeOfValue;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDate;
+
+@Getter
+@Setter
 @Entity
-public class DateAttributeValue extends BaseEntity {
-    @ManyToOne
-    @JoinColumn(name = JoinTableUtil.EAV_MAPPING_CUSTOMER)
-    private Customer customer;
+public class DateAttributeValue extends AttributeValue {
 
-    @ManyToOne
-    @JoinColumn(name = JoinTableUtil.EAV_MAPPING_ATTRIBUTE)
-    private Attribute attribute;
+    @Column(nullable = false)
+    private LocalDate value;
 
-    private Date value;
+
 }

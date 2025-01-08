@@ -5,9 +5,7 @@ import com.example.CRM.common.model.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import lombok.experimental.UtilityClass;
 
@@ -17,6 +15,8 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
+@SuperBuilder
+@NoArgsConstructor
 @Table(name = Customer.CustomerEntity.TABLE_NAME)
 public class Customer extends BaseEntity {
 
@@ -30,6 +30,8 @@ public class Customer extends BaseEntity {
     private String phone;
     @Column(name = CustomerEntity.DAY_OF_BIRTH)
     private LocalDateTime dob;
+
+
 
     @UtilityClass
     static class CustomerEntity{
