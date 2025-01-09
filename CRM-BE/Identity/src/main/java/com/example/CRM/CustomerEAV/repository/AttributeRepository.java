@@ -20,26 +20,26 @@ public interface AttributeRepository extends JpaRepository<Attribute,Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM NumberAttributeValue WHERE attribute_id = :attributeId", nativeQuery = true)
+    @Query(value = "DELETE FROM J_NUMBERATTRIBUTEVALUE WHERE attribute_id = :attributeId", nativeQuery = true)
     void deleteNumberAttributeValues(@Param("attributeId") Integer attributeId);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM DateAttributeValue WHERE attribute_id = :attributeId", nativeQuery = true)
+    @Query(value = "DELETE FROM J_DATEATTRIBUTEVALUE WHERE attribute_id = :attributeId", nativeQuery = true)
     void deleteDateAttributeValues(@Param("attributeId") Integer attributeId);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM StringAttributeValue WHERE attribute_id = :attributeId", nativeQuery = true)
+    @Query(value = "DELETE FROM J_STRINGATTRIBUTEVALUE WHERE attribute_id = :attributeId", nativeQuery = true)
     void deleteStringAttributeValues(@Param("attributeId") Integer attributeId);
 
     @Modifying
     @Transactional
     @Query(value = """
-            DELETE FROM NumberAttributeValue WHERE attribute_id = :attributeId;
-            DELETE FROM DateAttributeValue WHERE attribute_id = :attributeId;
-            DELETE FROM StringAttributeValue WHERE attribute_id = :attributeId;
-            DELETE FROM Attribute WHERE id = :attributeId;
+            DELETE FROM J_NUMBERATTRIBUTEVALUE WHERE attribute_id = :attributeId;
+            DELETE FROM J_DATEATTRIBUTEVALUE WHERE attribute_id = :attributeId;
+            DELETE FROM J_STRINGATTRIBUTEVALUE WHERE attribute_id = :attributeId;
+            DELETE FROM J_ATTRIBUTE WHERE id = :attributeId;
             """, nativeQuery = true)
     void deleteAttributeAndValues(@Param("attributeId") Integer attributeId);
 

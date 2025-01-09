@@ -12,6 +12,7 @@ import lombok.Setter;
 public abstract class AttributeValue {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
     @ManyToOne

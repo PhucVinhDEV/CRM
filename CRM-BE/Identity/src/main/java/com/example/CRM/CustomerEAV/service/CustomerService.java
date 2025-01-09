@@ -34,23 +34,27 @@ class CustomerServiceImpl implements CustomerService {
         Customer customer = customerMapper.maptoEntity(record);
         customerRepository.save(customer);
 
-      if(!record.attributes().isEmpty()){
-          // Lưu các AttributeValue
-          record.attributes().forEach((key, value) -> {
-              Attribute attribute = attributeRepository.findByAttributeName(key)
-                      .orElseThrow(() -> new RuntimeException("Không tìm thấy thuộc tính: " + key));
+        if (!record.attributes().isEmpty()) {
+            // Lưu các AttributeValue
+            record.attributes().forEach((key, value) -> {
+                Attribute attribute = attributeRepository.findByAttributeName(key)
+                        .orElseThrow(() -> new RuntimeException("Không tìm thấy thuộc tính: " + key));
 
-              if (value instanceof String stringValue) {
-                  saveStringAttributeValue(customer, attribute, stringValue);
-              } else if (value instanceof Double numberValue) {
-                  saveNumberAttributeValue(customer, attribute, numberValue);
-              } else if (value instanceof LocalDate dateValue) {
-                  saveDateAttributeValue(customer, attribute, dateValue);
-              } else {
-                  throw new RuntimeException("Kiểu giá trị không được hỗ trợ: " + value.getClass().getSimpleName());
-              }
-          });
-      }
+                switch (attribute.getType()) {
+                    case STRING:
+                        saveStringAttributeValue(customer, attribute, value.toString());
+                        break;
+                    case NUMBER:
+                        saveNumberAttributeValue(customer, attribute, Double.valueOf(value.toString()));
+                        break;
+                    case DATE:
+                        saveDateAttributeValue(customer, attribute, LocalDate.parse(value.toString()));
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Loại giá trị không hợp lệ: " + attribute.getType());
+                }
+            });
+        }
 
         // Trả về DTO
         return customerMapper.maptoDto(customer);
