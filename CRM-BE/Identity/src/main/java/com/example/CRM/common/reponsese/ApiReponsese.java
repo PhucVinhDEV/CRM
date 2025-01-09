@@ -18,4 +18,5 @@ public class ApiReponsese<T> {
     private T result;
     private List<String> errors;
     private String timestamp;
+    private String message;
 }

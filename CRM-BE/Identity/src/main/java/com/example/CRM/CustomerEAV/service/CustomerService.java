@@ -34,21 +34,23 @@ class CustomerServiceImpl implements CustomerService {
         Customer customer = customerMapper.maptoEntity(record);
         customerRepository.save(customer);
 
-        // Lưu các AttributeValue
-        record.attributes().forEach((key, value) -> {
-            Attribute attribute = attributeRepository.findByAttributeName(key)
-                    .orElseThrow(() -> new RuntimeException("Không tìm thấy thuộc tính: " + key));
+      if(!record.attributes().isEmpty()){
+          // Lưu các AttributeValue
+          record.attributes().forEach((key, value) -> {
+              Attribute attribute = attributeRepository.findByAttributeName(key)
+                      .orElseThrow(() -> new RuntimeException("Không tìm thấy thuộc tính: " + key));
 
-            if (value instanceof String stringValue) {
-                saveStringAttributeValue(customer, attribute, stringValue);
-            } else if (value instanceof Double numberValue) {
-                saveNumberAttributeValue(customer, attribute, numberValue);
-            } else if (value instanceof LocalDate dateValue) {
-                saveDateAttributeValue(customer, attribute, dateValue);
-            } else {
-                throw new RuntimeException("Kiểu giá trị không được hỗ trợ: " + value.getClass().getSimpleName());
-            }
-        });
+              if (value instanceof String stringValue) {
+                  saveStringAttributeValue(customer, attribute, stringValue);
+              } else if (value instanceof Double numberValue) {
+                  saveNumberAttributeValue(customer, attribute, numberValue);
+              } else if (value instanceof LocalDate dateValue) {
+                  saveDateAttributeValue(customer, attribute, dateValue);
+              } else {
+                  throw new RuntimeException("Kiểu giá trị không được hỗ trợ: " + value.getClass().getSimpleName());
+              }
+          });
+      }
 
         // Trả về DTO
         return customerMapper.maptoDto(customer);
