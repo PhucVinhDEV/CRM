@@ -19,5 +19,5 @@ public class CustomerDTO {
     private String lastName;
     private String phone;
     private LocalDateTime dob;
-    private Map<String, Object> attributes;
+    private Map<String, String> attributes;
 }

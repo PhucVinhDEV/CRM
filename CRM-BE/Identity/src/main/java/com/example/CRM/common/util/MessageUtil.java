@@ -28,6 +28,7 @@ public class MessageUtil {
     public static final String MAIL_AUTHENTICATION_FAILED = "Mail Authentication Failed";
     public static final String MAIL_AUTHENTICATION_SUCCESS = "Mail Authentication SUCCESFULLY";
 
+    public static final String CUSTOMER_NOT_FOUND = "Customer Not Found";
 
 //    public static final String INVALID_PROJECT_STATUS
 //            = "Trạng thái dự án không hợp lệ. Trạng thái gồm: " + Arrays.toString(Project.Status.values());

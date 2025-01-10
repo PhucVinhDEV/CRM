@@ -8,10 +8,9 @@ import com.example.CRM.common.util.DateTimeUtil;
 import com.example.CRM.common.validate.group.InsertInfo;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
@@ -25,6 +24,15 @@ public class CustomerController {
         return  ApiReponsese.<CustomerDTO>builder()
                 .timestamp(DateTimeUtil.now())
                 .result(customerService.save(customer))
+                .build();
+    }
+
+
+    @GetMapping("/{id}")
+    public ApiReponsese<CustomerDTO> getCustomerById(@PathVariable("id") UUID id) {
+        return ApiReponsese.<CustomerDTO>builder()
+                .timestamp(DateTimeUtil.now())
+                .result(customerService.getById(id))  // Giả sử bạn có phương thức getCustomerById trong service
                 .build();
     }
 }
