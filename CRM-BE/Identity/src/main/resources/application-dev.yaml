@@ -2,23 +2,22 @@ spring:
   application:
     name: EasyJob
   datasource:
-    url: jdbc:mysql://localhost:3306/OptiWork360?createDatabaseIfNotExist=true&serverTimezone=UTC
-    username: root
-    password: 123123
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:postgresql://localhost:5432/CRM_Project
+    username: bitznomad
+    password: 123123a
   jpa:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+    generate-ddl: true
   data:
     redis:
       host: redis-19568.c340.ap-northeast-2-1.ec2.redns.redis-cloud.com
       port: 19568
       password: gD9JLj0k1f9gTuJAjyYrY0qiUcSeHwgO
-    show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
   security:
         jwt:

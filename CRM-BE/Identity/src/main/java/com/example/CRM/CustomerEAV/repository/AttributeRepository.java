@@ -1,6 +1,7 @@
 package com.example.CRM.CustomerEAV.repository;
 
 import com.example.CRM.CustomerEAV.model.Attribute;
+import com.example.CRM.common.util.MessageUtil;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,61 +13,22 @@ import java.util.Optional;
 
 @Repository
 public interface AttributeRepository extends JpaRepository<Attribute,Integer> {
-
+    // Giữ nguyên các methods khác
     Optional<Attribute> findByAttributeName(String attributeName);
-
-
     void deleteByAttributeId(Integer AttributeId);
 
-    @Modifying
-    @Transactional
-    @Query(value = "DELETE FROM J_NUMBERATTRIBUTEVALUE WHERE attribute_id = :attributeId", nativeQuery = true)
-    void deleteNumberAttributeValues(@Param("attributeId") Integer attributeId);
+//    @Modifying
+//    @Transactional
+//    @Query(value = """
+//            DELETE FROM J_NUMBERATTRIBUTEVALUE WHERE attribute_id = :attributeId;
+//            DELETE FROM J_DATEATTRIBUTEVALUE WHERE attribute_id = :attributeId;
+//            DELETE FROM J_STRINGATTRIBUTEVALUE WHERE attribute_id = :attributeId;
+//            DELETE FROM J_ATTRIBUTE WHERE attribute_id = :attributeId;
+//            """, nativeQuery = true)
+//    void deleteAttributeAndValues(@Param("attributeId") Integer attributeId);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM J_DATEATTRIBUTEVALUE WHERE attribute_id = :attributeId", nativeQuery = true)
-    void deleteDateAttributeValues(@Param("attributeId") Integer attributeId);
-
-    @Modifying
-    @Transactional
-    @Query(value = "DELETE FROM J_STRINGATTRIBUTEVALUE WHERE attribute_id = :attributeId", nativeQuery = true)
-    void deleteStringAttributeValues(@Param("attributeId") Integer attributeId);
-
-    @Modifying
-    @Transactional
-    @Query(value = """
-            DELETE FROM J_NUMBERATTRIBUTEVALUE WHERE attribute_id = :attributeId;
-            DELETE FROM J_DATEATTRIBUTEVALUE WHERE attribute_id = :attributeId;
-            DELETE FROM J_STRINGATTRIBUTEVALUE WHERE attribute_id = :attributeId;
-            DELETE FROM J_ATTRIBUTE WHERE id = :attributeId;
-            """, nativeQuery = true)
-    void deleteAttributeAndValues(@Param("attributeId") Integer attributeId);
-
-    @Transactional
-    default void deleteAllAttributeValues(Integer attributeId) {
-        try {
-            deleteNumberAttributeValues(attributeId);
-            deleteDateAttributeValues(attributeId);
-            deleteStringAttributeValues(attributeId);
-            deleteByAttributeId(attributeId);
-        } catch (Exception e) {
-            // Log error
-            throw new RuntimeException("Error deleting attribute values: " + e.getMessage());
-        }
-    }
-    // Backup method in case batch delete fails
-    @Transactional
-    default void deleteAllAttributeValuesWithFallback(Integer attributeId) {
-        try {
-            deleteAttributeAndValues(attributeId);
-        } catch (Exception e) {
-            // Fallback to individual deletes
-            deleteNumberAttributeValues(attributeId);
-            deleteDateAttributeValues(attributeId);
-            deleteStringAttributeValues(attributeId);
-            deleteByAttributeId(attributeId);
-            throw new RuntimeException("Fallback delete completed with warning: " + e.getMessage());
-        }
-    }
+    @Query(value = "CALL delete_attribute_and_values(:aid)", nativeQuery = true)
+    void deleteAttributeAndValues(@Param("aid") Integer attributeId);
 }

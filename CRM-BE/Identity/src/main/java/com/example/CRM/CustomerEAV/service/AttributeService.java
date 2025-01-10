@@ -42,7 +42,7 @@ class  AttributeServiceImpl implements AttributeService {
 
     @Override
     public void delete(Integer id) {
-        attributeRepository.deleteAllAttributeValuesWithFallback(id);
+        attributeRepository.deleteAttributeAndValues(id);
     }
 
     private AttributeDTO toDTO(Attribute attribute) {
