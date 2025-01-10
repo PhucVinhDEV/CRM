@@ -117,7 +117,7 @@ public class ApplicationRunnerInitialize {
                     "John",
                     "Doe",
                     "+123456789",
-                    LocalDateTime.of(1993, 5, 10, 0, 0), // Định dạng ngày sinh với cả ngày và giờ (00:00)
+                    LocalDate.of(1993, 5, 10), // Định dạng ngày sinh với cả ngày và giờ (00:00)
                     new HashMap<>() {{
                         put("Age", 30); // Thêm thuộc tính Age
                         put("BirthPlace", "New York"); // Thêm thuộc tính BirthPlace

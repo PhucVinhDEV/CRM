@@ -7,6 +7,7 @@ import com.example.CRM.user.valiation.anomation.UniqueUser;
 import jakarta.validation.constraints.*;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
@@ -29,7 +30,7 @@ public record CustomerRecord (
 
         @Size(groups = {InsertInfo.class, UpdateInfo.class},max = 15, message = "{user.phone.size}") // Example size constraint
         String phone,
-        LocalDateTime dob,
+        LocalDate dob,
 
         Map<String, Object> attributes
 ){}

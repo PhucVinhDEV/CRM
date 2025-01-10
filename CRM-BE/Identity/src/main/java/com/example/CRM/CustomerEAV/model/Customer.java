@@ -9,6 +9,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import lombok.experimental.UtilityClass;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -29,7 +30,7 @@ public class Customer extends BaseEntity {
     @Column(name = CustomerEntity.PHONE, unique = true, nullable = false)
     private String phone;
     @Column(name = CustomerEntity.DAY_OF_BIRTH)
-    private LocalDateTime dob;
+    private LocalDate dob;
 
 
 
