@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -17,6 +18,7 @@ import static com.example.CRM.FIOStream.init.initExcelTest.*;
 @SpringBootApplication
 @EnableJpaAuditing
 @EnableScheduling
+@EnableFeignClients(basePackages = "com.example.CRM.Oauth2.httpclient")
 public class CRMApplication {
 
 	public static void main(String[] args) {

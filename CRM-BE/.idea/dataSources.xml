@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+
     <data-source source="LOCAL" name="CRM_Project@localhost" uuid="4f2d1c73-b3d4-4fec-b8a2-ba7892f92565">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
@@ -14,7 +15,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="0@redis-19568.c340.ap-northeast-2-1.ec2.redns.redis-cloud.com" uuid="d50f25de-86f2-4803-8dd5-d22814cab20d">
+    <data-source source="LOCAL" name="0@redis-19568.c340.ap-northeast-2-1.ec2.redns.redis-cloud.com" uuid="d50f25de-86f-4803-8dd5-d22814cab20d">
       <driver-ref>redis</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
