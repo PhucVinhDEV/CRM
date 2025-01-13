@@ -1,8 +1,12 @@
 package com.example.CRM.CustomerEAV.controller;
 
+import com.example.CRM.CustomerEAV.model.Customer;
 import com.example.CRM.CustomerEAV.model.DTO.AttributeDTO;
 import com.example.CRM.CustomerEAV.model.record.AttributeRecord;
 import com.example.CRM.CustomerEAV.service.AttributeService;
+import com.example.CRM.CustomerEAV.service.CustomerService;
+import com.example.CRM.FIOStream.Model.ImportResponse;
+import com.example.CRM.FIOStream.Service.ImportFileService;
 import com.example.CRM.common.reponsese.ApiReponsese;
 import com.example.CRM.common.util.DateTimeUtil;
 import com.example.CRM.common.validate.group.InsertInfo;
@@ -11,6 +15,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.parameters.P;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -26,6 +33,9 @@ public class AttributeController {
                 .result(attributeService.save(record))
                 .build();
     }
+
+
+
     @PutMapping()
     public ApiReponsese<AttributeDTO> updateAttribute(
             @Validated(UpdateInfo.class) @RequestBody AttributeRecord record) {

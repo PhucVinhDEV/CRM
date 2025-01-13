@@ -8,6 +8,9 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
@@ -21,6 +24,7 @@ public interface ImportFileService {
     List<Customer> parseDataToCustomerRecords(MultipartFile file);
 }
 
+@Service
 class ImportFileServiceImpl implements ImportFileService {
 
 
@@ -29,6 +33,7 @@ class ImportFileServiceImpl implements ImportFileService {
             "text/csv",
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     ));
+    private static final Logger log = LoggerFactory.getLogger(ImportFileServiceImpl.class);
 
     @Override
     public List<Customer> parseDataToCustomerRecords(MultipartFile file) {
@@ -186,6 +191,7 @@ class ImportFileServiceImpl implements ImportFileService {
                             .phone(validateAndGetPhone(record.get("Phone")))
                             .dob(validateAndGetDate(record.get("Date of Birth")))
                             .build();
+                    log.info("Add " + customer.getEmail());
                     customers.add(customer);
                 } catch (IllegalArgumentException e) {
                     // Log the error and continue with next record
@@ -225,7 +231,7 @@ class ImportFileServiceImpl implements ImportFileService {
                             .phone(validateAndGetPhone(getCellValue(row, columnMap.get("Phone"))))
                             .dob(validateAndGetDate(getCellValue(row, columnMap.get("Date of Birth"))))
                             .build();
-
+                    log.info("Add " + customer.getEmail());
                     customers.add(customer);
                 } catch (IllegalArgumentException e) {
                     // Log the error and continue with next record
