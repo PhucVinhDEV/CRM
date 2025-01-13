@@ -1,12 +1,19 @@
 package com.example.CRM;
 
 
+import com.example.CRM.CustomerEAV.model.Attribute;
+import com.example.CRM.CustomerEAV.model.record.AttributeRecord;
+import com.example.CRM.CustomerEAV.model.record.CustomerRecord;
+import com.example.CRM.CustomerEAV.service.AttributeService;
+import com.example.CRM.CustomerEAV.service.CustomerService;
+import com.example.CRM.CustomerEAV.util.TypeOfValue;
 import com.example.CRM.common.util.PermissionNameUtil;
 import com.example.CRM.common.util.RoleNameUtil;
 import com.example.CRM.permission.model.Permission;
 import com.example.CRM.permission.repository.PermissionRepository;
 import com.example.CRM.role.model.Role;
 import com.example.CRM.role.repository.RoleRepository;
+import com.example.CRM.role.service.RoleService;
 import com.example.CRM.user.model.User;
 import com.example.CRM.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -15,7 +22,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -26,6 +36,8 @@ public class ApplicationRunnerInitialize {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final AttributeService attributeService;
+    private final CustomerService customerService;
     @Bean
     ApplicationRunner applicationRunner() {
         return args -> {
@@ -89,6 +101,29 @@ public class ApplicationRunnerInitialize {
                 }
             });
 
+            AttributeRecord attribute1 = new AttributeRecord(
+                    null,"BirthPlace", TypeOfValue.STRING
+            );
+            attributeService.save(attribute1);
+            AttributeRecord attribute2 = new AttributeRecord(
+                    null,"Age", TypeOfValue.NUMBER
+            );
+            attributeService.save(attribute2);
+
+
+            CustomerRecord customer1 = new CustomerRecord(
+                    null, // ID để trống hoặc bạn có thể truyền null
+                    "john.doe@example.com",
+                    "John",
+                    "Doe",
+                    "+123456789",
+                    LocalDate.of(1993, 5, 10), // Định dạng ngày sinh với cả ngày và giờ (00:00)
+                    new HashMap<>() {{
+                        put("Age", 30); // Thêm thuộc tính Age
+                        put("BirthPlace", "New York"); // Thêm thuộc tính BirthPlace
+                    }}
+            );
+            customerService.save(customer1);
         };
     }
 }

@@ -12,5 +12,7 @@ public class JoinTableUtil {
     public static final String ROLE_ID = "ROLE_ID";
     public static final String PERMISSION_ID = "PERMISSION_ID";
 
-
+    //EAV Customer
+    public static final String EAV_MAPPING_CUSTOMER = "CUSTOMER_ID";
+    public static final String EAV_MAPPING_ATTRIBUTE = "attributeId";
 }
