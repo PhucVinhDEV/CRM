@@ -6,6 +6,10 @@ spring:
     username: bitznomad
     password: 123123a
   jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
     hibernate:
       ddl-auto: create-drop
     show-sql: true
@@ -15,10 +19,7 @@ spring:
       host: redis-19568.c340.ap-northeast-2-1.ec2.redns.redis-cloud.com
       port: 19568
       password: gD9JLj0k1f9gTuJAjyYrY0qiUcSeHwgO
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
+
   security:
         jwt:
           secretKey: OwZdPSFmr0zvDnNkfcaU9SUEG4fsask/qTtmffAIVmYzG1PjCzmiwXZbuJp5NJ9Z

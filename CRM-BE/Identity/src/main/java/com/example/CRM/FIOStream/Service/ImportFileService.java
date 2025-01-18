@@ -2,7 +2,9 @@ package com.example.CRM.FIOStream.Service;
 
 import com.example.CRM.CustomerEAV.model.Customer;
 import com.example.CRM.CustomerEAV.model.record.CustomerRecord;
+import com.example.CRM.CustomerEAV.repository.CustomerRepository;
 import com.example.CRM.common.util.DateTimeUtil;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -25,9 +27,10 @@ public interface ImportFileService {
 }
 
 @Service
+@RequiredArgsConstructor
 class ImportFileServiceImpl implements ImportFileService {
 
-
+    private final CustomerRepository customerRepository;
     private static final Set<String> ALLOWED_EXTENSIONS = new HashSet<>(Arrays.asList("csv", "xlsx"));
     private static final Set<String> ALLOWED_MIME_TYPES = new HashSet<>(Arrays.asList(
             "text/csv",
@@ -41,9 +44,9 @@ class ImportFileServiceImpl implements ImportFileService {
 
         // Existing parsing logic based on file type
         if (isCSVFile(file)) {
-            return parseCSVFile(file);
+            return customerRepository.saveAll(parseCSVFile(file));
         } else if (isXLSXFile(file)) {
-            return parseXLSXFile(file);
+            return customerRepository.saveAll(parseXLSXFile(file));
         }
 
         throw new IllegalArgumentException("Unsupported file format");
