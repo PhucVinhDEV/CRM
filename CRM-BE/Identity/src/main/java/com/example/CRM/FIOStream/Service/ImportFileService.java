@@ -1,13 +1,10 @@
 package com.example.CRM.FIOStream.Service;
 
 import com.example.CRM.CustomerEAV.model.Customer;
-import com.example.CRM.CustomerEAV.model.record.CustomerRecord;
 import com.example.CRM.CustomerEAV.repository.CustomerRepository;
 import com.example.CRM.common.util.DateTimeUtil;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
+
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
@@ -18,12 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public interface ImportFileService {
-    List<Customer> parseDataToCustomerRecords(MultipartFile file);
+//    List<Customer> parseDataToCustomerRecords(MultipartFile file);
 }
 
 @Service
@@ -38,19 +34,19 @@ class ImportFileServiceImpl implements ImportFileService {
     ));
     private static final Logger log = LoggerFactory.getLogger(ImportFileServiceImpl.class);
 
-    @Override
-    public List<Customer> parseDataToCustomerRecords(MultipartFile file) {
-        validateFile(file);
-
-        // Existing parsing logic based on file type
-        if (isCSVFile(file)) {
-            return customerRepository.saveAll(parseCSVFile(file));
-        } else if (isXLSXFile(file)) {
-            return customerRepository.saveAll(parseXLSXFile(file));
-        }
-
-        throw new IllegalArgumentException("Unsupported file format");
-    }
+//    @Override
+//    public List<Customer> parseDataToCustomerRecords(MultipartFile file) {
+//        validateFile(file);
+//
+////        // Existing parsing logic based on file type
+////        if (isCSVFile(file)) {
+////            return customerRepository.saveAll(parseCSVFile(file));
+////        } else if (isXLSXFile(file)) {
+////            return customerRepository.saveAll(parseXLSXFile(file));
+////        }
+//
+//        throw new IllegalArgumentException("Unsupported file format");
+//    }
     private String validateAndGetEmail(String email) {
         if (email == null || !email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
             throw new IllegalArgumentException("Invalid email format");
@@ -177,36 +173,36 @@ class ImportFileServiceImpl implements ImportFileService {
                 return cell.toString().trim();
         }
     }
-    private List<Customer> parseCSVFile(MultipartFile file) {
-        List<Customer> customers = new ArrayList<>();
-        try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(file.getInputStream()));
-             CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT
-                     .withFirstRecordAsHeader()
-                     .withIgnoreHeaderCase()
-                     .withTrim())) {
-
-            for (CSVRecord record : csvParser) {
-                try {
-                    Customer customer = Customer.builder()
-                            .email(validateAndGetEmail(record.get("Email")))
-                            .firstName(validateAndGetString(record.get("First Name"), "First Name"))
-                            .lastName(validateAndGetString(record.get("Last Name"), "Last Name"))
-                            .phone(validateAndGetPhone(record.get("Phone")))
-                            .dob(validateAndGetDate(record.get("Date of Birth")))
-                            .build();
-                    log.info("Add " + customer.getEmail());
-                    customers.add(customer);
-                } catch (IllegalArgumentException e) {
-                    // Log the error and continue with next record
-                    System.err.println("Error processing record: " + record.toString() + ". Error: " + e.getMessage());
-                }
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to parse CSV file: " + e.getMessage(), e);
-        }
-        return customers;
-    }
+//    private List<Customer> parseCSVFile(MultipartFile file) {
+//        List<Customer> customers = new ArrayList<>();
+//        try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+//             CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT
+//                     .withFirstRecordAsHeader()
+//                     .withIgnoreHeaderCase()
+//                     .withTrim())) {
+//
+//            for (CSVRecord record : csvParser) {
+//                try {
+//                    Customer customer = Customer.builder()
+//                            .email(validateAndGetEmail(record.get("Email")))
+//                            .firstName(validateAndGetString(record.get("First Name"), "First Name"))
+//                            .lastName(validateAndGetString(record.get("Last Name"), "Last Name"))
+//                            .phone(validateAndGetPhone(record.get("Phone")))
+//                            .dob(validateAndGetDate(record.get("Date of Birth")))
+//                            .build();
+//                    log.info("Add " + customer.getEmail());
+//                    customers.add(customer);
+//                } catch (IllegalArgumentException e) {
+//                    // Log the error and continue with next record
+//                    System.err.println("Error processing record: " + record.toString() + ". Error: " + e.getMessage());
+//                }
+//            }
+//
+//        } catch (Exception e) {
+//            throw new RuntimeException("Failed to parse CSV file: " + e.getMessage(), e);
+//        }
+//        return customers;
+//    }
 
     private List<Customer> parseXLSXFile(MultipartFile file) {
         List<Customer> customers = new ArrayList<>();

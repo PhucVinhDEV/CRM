@@ -14,6 +14,11 @@ spring:
       ddl-auto: create-drop
     show-sql: true
     generate-ddl: true
+  batch:
+    jdbc:
+      initialize-schema: always  # T? ??ng t?o b?ng cho Spring Batch
+    job:
+      enabled: false  # Kh�ng t? ??ng ch?y job khi kh?i ??ng ?ng d?ng
   data:
     redis:
       host: redis-19568.c340.ap-northeast-2-1.ec2.redns.redis-cloud.com
