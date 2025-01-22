@@ -2,7 +2,7 @@ spring:
   application:
     name: EasyJob
   datasource:
-    url: jdbc:postgresql://localhost:5432/CRM_Project
+    url: jdbc:postgresql://localhost:5432/CRM_Project?reWriteBatchedInserts=true
     username: bitznomad
     password: 123123a
   jpa:
@@ -12,11 +12,11 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: create-drop
-    show-sql: true
+    show-sql: false
     generate-ddl: true
   batch:
     jdbc:
-      initialize-schema: always  # T? ??ng t?o b?ng cho Spring Batch
+      initialize-schema: never  # T? ??ng t?o b?ng cho Spring Batch # Không tạo lại bảng Spring Batch sau lần chạy đầu tiên
     job:
       enabled: false  # Kh�ng t? ??ng ch?y job khi kh?i ??ng ?ng d?ng
   data:
@@ -56,6 +56,10 @@ logging:
       springframework:
         web: DEBUG
         http: DEBUG
+        batch: DEBUG # Bật logging cho Spring Batch
+      hibernate:
+        SQL: DEBUG  # Bật logging cho các câu lệnh SQL
+        type: TRACE # Bật logging chi tiết cho các tham số SQL
 outbound:
   identity:
     client-id: 1050382932656-kalm37mis8iqvkhmg4hp8dtne2d0vnas.apps.googleusercontent.com

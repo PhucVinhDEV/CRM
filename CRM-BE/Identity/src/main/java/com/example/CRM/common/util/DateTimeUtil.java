@@ -24,4 +24,5 @@ public class DateTimeUtil {
     public static String now() {
         return LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT));
     }
+
 }

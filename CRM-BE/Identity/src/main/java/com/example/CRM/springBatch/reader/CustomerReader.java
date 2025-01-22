@@ -49,11 +49,5 @@ public class CustomerReader {
         return lineMapper;
     }
 
-    public Resource convertMultipartFileToResource(MultipartFile multipartFile) {
-        try {
-            return new InputStreamResource(multipartFile.getInputStream());
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to convert MultipartFile to Resource", e);
-        }
-    }
+
 }
