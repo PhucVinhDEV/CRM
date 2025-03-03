@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-
     <data-source source="LOCAL" name="CRM_Project@localhost" uuid="4f2d1c73-b3d4-4fec-b8a2-ba7892f92565">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
@@ -22,6 +21,20 @@
       <remarks>$PROJECT_DIR$/Identity/src/main/resources/application-dev.yaml</remarks>
       <jdbc-driver>jdbc.RedisDriver</jdbc-driver>
       <jdbc-url>jdbc:redis://redis-19568.c340.ap-northeast-2-1.ec2.redns.redis-cloud.com:19568/0</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="com.intellij.clouds.kubernetes.db.host.port" />
+        <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
+        <property name="com.intellij.clouds.kubernetes.db.container.port" />
+      </jdbc-additional-properties>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="0@redis-16183.c302.asia-northeast1-1.gce.redns.redis-cloud.com" uuid="787a469f-f3b9-4ed3-b920-d507bc785307">
+      <driver-ref>redis</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>$PROJECT_DIR$/Identity/src/main/resources/application-dev.yaml</remarks>
+      <jdbc-driver>jdbc.RedisDriver</jdbc-driver>
+      <jdbc-url>jdbc:redis://redis-16183.c302.asia-northeast1-1.gce.redns.redis-cloud.com:16183/0</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />

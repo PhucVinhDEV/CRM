@@ -86,11 +86,10 @@ public class MailerServiceImpl implements MailerService {
 
     @Override
     public void send(String to, String subject, String body) throws MessagingException {
-// TODO Auto-generated method stub
         try {
             this.send(new MailInfo(to, subject, body));
         } catch (MessagingException e) {
-            // TODO Auto-generated catch block
+
             e.printStackTrace();
         }
 

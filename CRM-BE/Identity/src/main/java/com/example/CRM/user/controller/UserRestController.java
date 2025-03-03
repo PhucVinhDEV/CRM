@@ -34,6 +34,7 @@ public class UserRestController {
 
     @PostMapping
     public ResponseEntity<UserDTO> createUser(@Validated(InsertInfo.class) @RequestBody UserRecord record) {
+        log.info("Create User: {Test}", record);
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(record));
 
     }

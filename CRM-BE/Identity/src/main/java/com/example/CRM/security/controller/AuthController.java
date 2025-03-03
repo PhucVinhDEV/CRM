@@ -5,6 +5,7 @@ import com.example.CRM.Oauth2.service.Oauth2Service;
 import com.example.CRM.common.reponsese.ApiReponsese;
 import com.example.CRM.common.util.DateTimeUtil;
 import com.example.CRM.security.dto.AuthenticationResponse;
+import com.example.CRM.security.dto.LoginRequest;
 import com.example.CRM.security.service.AuthenticateService;
 import com.example.CRM.security.service.JWTService;
 import com.example.CRM.security.util.AuthorizeUtil;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.util.UUID;
 
-@RequestMapping("/api/auth/v1")
+@RequestMapping("/api/v1/auth")
 @RestController
 @AllArgsConstructor
 public class AuthController {
@@ -30,9 +31,9 @@ public class AuthController {
     private final Oauth2Service oauth2Service;
 
     @PostMapping("/login")
-    public ApiReponsese<AuthenticationResponse> login(String username, String password) {
+    public ApiReponsese<AuthenticationResponse> login(@RequestBody LoginRequest loginRequest) {
         return ApiReponsese.<AuthenticationResponse>builder()
-                .result(authenticateService.authenticate(username,password))
+                .result(authenticateService.authenticate(loginRequest.getUsername(), loginRequest.getPassword()))
                 .build();
     }
 

@@ -24,6 +24,7 @@ public class ResponseUtil {
     }
 
     public  ResponseEntity<ApiReponsese<Void>> error(Exception e,HttpStatus httpStatus){
+        e.printStackTrace();
         return buildResponse(null,true,ErrorUtil.getErrorMessage(e),httpStatus);
     }
 

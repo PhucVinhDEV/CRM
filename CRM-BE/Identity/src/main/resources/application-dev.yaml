@@ -1,6 +1,6 @@
 spring:
   application:
-    name: EasyJob
+    name: CRMWork
   datasource:
     url: jdbc:postgresql://localhost:5432/CRM_Project?reWriteBatchedInserts=true
     username: bitznomad
@@ -21,9 +21,9 @@ spring:
       enabled: false  # Kh�ng t? ??ng ch?y job khi kh?i ??ng ?ng d?ng
   data:
     redis:
-      host: redis-19568.c340.ap-northeast-2-1.ec2.redns.redis-cloud.com
-      port: 19568
-      password: gD9JLj0k1f9gTuJAjyYrY0qiUcSeHwgO
+      host: redis-16183.c302.asia-northeast1-1.gce.redns.redis-cloud.com
+      port: 16183
+      password: q86GvbMF0wt7iFpaFUqmmvE4FCluxVfc
 
   security:
         jwt:
