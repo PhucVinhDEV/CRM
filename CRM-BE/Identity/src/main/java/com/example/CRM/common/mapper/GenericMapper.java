@@ -1,11 +1,11 @@
 package com.example.CRM.common.mapper;
 
-import com.example.CRM.common.model.BaseEntity;
+import com.example.CRM.common.model.BaseEntityUUID;
 
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-public interface GenericMapper<R ,E extends BaseEntity, D> {
+public interface GenericMapper<R ,E extends BaseEntityUUID, D> {
 
     E maptoEntity(R record);
 

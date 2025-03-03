@@ -1,7 +1,7 @@
 package com.example.CRM.common.service;
 
 import com.example.CRM.common.mapper.GenericMapper;
-import com.example.CRM.common.model.BaseEntity;
+import com.example.CRM.common.model.BaseEntityUUID;
 import com.example.CRM.common.model.PageReponsese;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +16,7 @@ import java.util.List;
  * D : DTO reponsese API
  * @return
  */
-public interface GenericService<T extends BaseEntity, R, D, U>{
+public interface GenericService<T extends BaseEntityUUID, R, D, U>{
 
 
 

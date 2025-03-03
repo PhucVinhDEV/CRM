@@ -1,105 +1,111 @@
 package com.example.CRM;
 
 
-import com.example.CRM.CustomerEAV.model.Attribute;
-import com.example.CRM.CustomerEAV.model.record.AttributeRecord;
-import com.example.CRM.CustomerEAV.model.record.CustomerRecord;
-import com.example.CRM.CustomerEAV.service.AttributeService;
-import com.example.CRM.CustomerEAV.service.CustomerService;
-import com.example.CRM.CustomerEAV.util.TypeOfValue;
-import com.example.CRM.common.util.PermissionNameUtil;
+import com.example.CRM.Auth.Benifit.model.Benefit;
+import com.example.CRM.Auth.Benifit.repository.BenefitRepository;
+import com.example.CRM.Auth.role.model.Role;
+import com.example.CRM.Auth.user.model.User;
+import com.example.CRM.Customer.CustomerEAV.model.record.AttributeRecord;
+import com.example.CRM.Customer.CustomerEAV.model.record.CustomerRecord;
+import com.example.CRM.Customer.CustomerEAV.repository.CustomerRepository;
+import com.example.CRM.Customer.CustomerEAV.service.AttributeService;
+import com.example.CRM.Customer.CustomerEAV.service.CustomerService;
+import com.example.CRM.Auth.role.repository.RoleRepository;
+import com.example.CRM.Auth.user.repository.UserRepository;
+import com.example.CRM.Customer.CustomerEAV.util.TypeOfValue;
+import com.example.CRM.common.util.BenefitUtil;
 import com.example.CRM.common.util.RoleNameUtil;
-import com.example.CRM.permission.model.Permission;
-import com.example.CRM.permission.repository.PermissionRepository;
-import com.example.CRM.role.model.Role;
-import com.example.CRM.role.repository.RoleRepository;
-import com.example.CRM.role.service.RoleService;
-import com.example.CRM.user.model.User;
-import com.example.CRM.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Configuration
 @AllArgsConstructor
 public class ApplicationRunnerInitialize {
-    private final PermissionRepository permissionRepository;
+
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final AttributeService attributeService;
     private final CustomerService customerService;
+    private final BenefitRepository benefitRepository;
     @Bean
     ApplicationRunner applicationRunner() {
         return args -> {
-            // Step 1: Create Permissions
-            List<Permission> permissions = Arrays.asList(
-                    new Permission(PermissionNameUtil.VIEW_USER, "View User", null),
-                    new Permission(PermissionNameUtil.CREATE_USER, "Create User", null),
-                    new Permission(PermissionNameUtil.DELETE_USER, "Delete User", null),
-                    new Permission(PermissionNameUtil.UPDATE_USER, "Update User", null)
+            // Step 1: Create Benefits
+            List<Benefit> benefits = List.of(
+                    new Benefit(BenefitUtil.GUEST, 500, 500, BigInteger.ZERO),
+                    new Benefit(BenefitUtil.SLIVER, 500, 500, BigInteger.valueOf(1_000_000)),
+                    new Benefit(BenefitUtil.GOLD, 500, 500, BigInteger.valueOf(5_000_000))
             );
 
-            permissions.forEach(permission -> {
-                if (!permissionRepository.existsByName(permission.getName())) {
-                    permissionRepository.save(permission);
-                }
-            });
-
-            // Step 2: Create Roles and Assign Permissions
-            List<Role> roles = Arrays.asList(
-                    new Role(RoleNameUtil.ROOT, "Super Admin => Root", new HashSet<>(permissions)),
-                    new Role(RoleNameUtil.ADMIN, "Admin of department = director",
-                            new HashSet<>(permissions.subList(0, 3))), // Admin can VIEW, CREATE, DELETE
-                    new Role(RoleNameUtil.MANAGER, "Manager of department",
-                            new HashSet<>(permissions.subList(0, 2))), // Manager can VIEW, CREATE
-                    new Role(RoleNameUtil.EMPLOYEE, "Employee of department", new HashSet<>()) // Employee has no permissions
+// Lưu các Benefit chưa tồn tại
+            benefitRepository.saveAll(
+                    benefits.stream()
+                            .filter(b -> !benefitRepository.existsByName(b.getName()))
+                            .toList()
             );
 
-            roles.forEach(role -> {
-                if (!roleRepository.existsByRoleName(role.getRoleName())) {
-                    roleRepository.save(role);
-                }
-            });
+// Step 2: Create Roles
+            List<Role> roles = List.of(
+                    new Role(RoleNameUtil.ROOT, "Super Admin => Root"),
+                    new Role(RoleNameUtil.MARKETER, "Admin of department = director")
+            );
 
-            // Step 3: Create Users and Assign Roles
-            // Step 3: Create Users and Assign Roles
+// Lưu các Role chưa tồn tại
+            roleRepository.saveAll(
+                    roles.stream()
+                            .filter(r -> !roleRepository.existsByRoleName(r.getRoleName()))
+                            .toList()
+            );
+
+// Step 3: Create Users and Assign Roles & Benefits
+            Map<String, Benefit> benefitMap = benefits.stream()
+                    .collect(Collectors.toMap(Benefit::getName, b -> b));
+
             roleRepository.findByRoleName(RoleNameUtil.ROOT).ifPresent(role -> {
-                User rootUser = new User( "root@easyjob.com","Trần văn Root", passwordEncoder.encode("root123"), User.Gender.MALE, User.StatusVerified.PENDING, role);
-                if (!userRepository.existsByEmail(rootUser.getEmail())) {
-                    userRepository.save(rootUser);
+                User admin = new User("admin@easyjob.com", "Trần Phúc Admin",
+                        passwordEncoder.encode("admin123"), User.StatusVerified.PENDING,
+                        role, benefitMap.get(BenefitUtil.GOLD));
+
+                if (!userRepository.existsByEmail(admin.getEmail())) {
+                    userRepository.save(admin);
                 }
             });
 
-            roleRepository.findByRoleName(RoleNameUtil.ADMIN).ifPresent(role -> {
-                User adminUser = new User( "admin@easyjob.com","Trần Phúc Admin", passwordEncoder.encode("admin123"),User.Gender.MALE, User.StatusVerified.PENDING, role);
-                if (!userRepository.existsByEmail(adminUser.getEmail())) {
-                    userRepository.save(adminUser);
-                }
+            roleRepository.findByRoleName(RoleNameUtil.MARKETER).ifPresent(role -> {
+                List<User> marketers = List.of(
+                        new User("marketer1@easyjob.com", "Marketer One",
+                                passwordEncoder.encode("mark123"), User.StatusVerified.PENDING,
+                                role, benefitMap.get(BenefitUtil.GUEST)),
+
+                        new User("marketer2@easyjob.com", "Marketer Two",
+                                passwordEncoder.encode("mark123"), User.StatusVerified.PENDING,
+                                role, benefitMap.get(BenefitUtil.SLIVER)),
+
+                        new User("marketer3@easyjob.com", "Marketer Three",
+                                passwordEncoder.encode("mark123"), User.StatusVerified.PENDING,
+                                role, benefitMap.get(BenefitUtil.GOLD))
+                );
+
+                userRepository.saveAll(
+                        marketers.stream()
+                                .filter(user -> !userRepository.existsByEmail(user.getEmail()))
+                                .toList()
+                );
             });
 
-            roleRepository.findByRoleName(RoleNameUtil.MANAGER).ifPresent(role -> {
-                User managerUser = new User( "manager@easyjob.com","Nguyễn Văn Manager", passwordEncoder.encode("manager123"),User.Gender.MALE, User.StatusVerified.PENDING, role);
-                if (!userRepository.existsByEmail(managerUser.getEmail())) {
-                    userRepository.save(managerUser);
-                }
-            });
 
-            roleRepository.findByRoleName(RoleNameUtil.EMPLOYEE).ifPresent(role -> {
-                User employeeUser = new User( "employee@easyjob.com","Trịnh trần User", passwordEncoder.encode("employee123"),User.Gender.MALE, User.StatusVerified.PENDING, role);
-                if (!userRepository.existsByEmail(employeeUser.getEmail())) {
-                    userRepository.save(employeeUser);
-                }
-            });
 
             AttributeRecord attribute1 = new AttributeRecord(
                     null,"BirthPlace", TypeOfValue.STRING

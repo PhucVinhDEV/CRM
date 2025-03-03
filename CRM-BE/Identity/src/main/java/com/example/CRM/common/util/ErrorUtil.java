@@ -1,7 +1,7 @@
 package com.example.CRM.common.util;
 
 import com.example.CRM.common.exception.AppException;
-import com.example.CRM.user.model.User;
+import com.example.CRM.Auth.user.model.User;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -35,8 +35,7 @@ public class ErrorUtil {
             return List.of(MessageUtil.INVALID_DATE_FORMAT);
         } else if (User.StatusVerified.class.equals(targetType)){
             return List.of(MessageUtil.INVALID_USER_ACCOUNT_STATUS);
-        } else if (User.Gender.class.equals(targetType)){
-            return List.of(MessageUtil.INVALID_USER_GENDER);
+
 //        } else if (Project.Status.class.equals(targetType)){
 //            return List.of(MessageUtil.INVALID_PROJECT_STATUS);
 //        } else if (Task.Status.class.equals(targetType)){

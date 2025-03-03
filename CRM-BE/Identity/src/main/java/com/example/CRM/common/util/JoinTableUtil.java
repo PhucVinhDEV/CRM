@@ -7,10 +7,8 @@ public class JoinTableUtil {
     //USER & ROLE
     public static final String USER_MAPPED_BY_ROLE = "ROLE_ID";
 
-    //ROLE & PERMISSION
-    public static final String ROLE_AND_PERMISSION = "ROLE_PERMISSION";
-    public static final String ROLE_ID = "ROLE_ID";
-    public static final String PERMISSION_ID = "PERMISSION_ID";
+    //User & Benifit
+    public static final String USER_MAPPED_BY_BENEFIT = "BENEFIT_ID";
 
     //EAV Customer
     public static final String EAV_MAPPING_CUSTOMER = "CUSTOMER_ID";

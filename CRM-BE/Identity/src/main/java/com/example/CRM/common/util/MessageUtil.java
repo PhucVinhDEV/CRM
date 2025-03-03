@@ -1,6 +1,6 @@
 package com.example.CRM.common.util;
 
-import com.example.CRM.user.model.User;
+import com.example.CRM.Auth.user.model.User;
 import lombok.experimental.UtilityClass;
 import org.springframework.context.MessageSource;
 
@@ -23,8 +23,7 @@ public class MessageUtil {
             = "Date Format không hợp lệ. Date Format yêu cầu: " + DateTimeUtil.DATE_FORMAT;
     public static final String INVALID_USER_ACCOUNT_STATUS
             = "Trạng thái người dùng không hợp lệ. Trạng thái gồm: " + Arrays.toString(User.StatusVerified.values());
-    public static final String INVALID_USER_GENDER
-            = "Giới tính người dùng không hợp lệ. Giới tính gồm: " + Arrays.toString(User.Gender.values());
+
     public static final String MAIL_AUTHENTICATION_FAILED = "Mail Authentication Failed";
     public static final String MAIL_AUTHENTICATION_SUCCESS = "Mail Authentication SUCCESFULLY";
 

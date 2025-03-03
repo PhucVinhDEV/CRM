@@ -1,17 +1,17 @@
 package com.example.CRM.User;
 
 
-import com.example.CRM.user.mapper.UserMapper;
-import com.example.CRM.user.model.User;
-import com.example.CRM.user.model.record.UserRecord;
-import com.example.CRM.user.model.reponsese.UserDTO;
-import com.example.CRM.user.repository.UserRepository;
+import com.example.CRM.Auth.user.mapper.UserMapper;
+import com.example.CRM.Auth.user.model.User;
+import com.example.CRM.Auth.user.model.record.UserRecord;
+import com.example.CRM.Auth.user.model.reponsese.UserDTO;
+import com.example.CRM.Auth.user.repository.UserRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-import com.example.CRM.user.service.UserServiceImpl;
+import com.example.CRM.Auth.user.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
