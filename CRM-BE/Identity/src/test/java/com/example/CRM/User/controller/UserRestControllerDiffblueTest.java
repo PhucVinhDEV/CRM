@@ -13,6 +13,7 @@ import static org.mockito.Mockito.when;
 
 import com.example.CRM.Auth.user.controller.UserRestController;
 import com.example.CRM.Auth.MailAuthen.service.MailService;
+import com.example.CRM.Auth.user.model.reponsese.PublicUserDTO;
 import com.example.CRM.common.model.PageReponsese;
 import com.example.CRM.common.reponsese.ApiReponsese;
 import com.example.CRM.common.service.ApplicationUrlService;
@@ -22,7 +23,6 @@ import com.example.CRM.Auth.security.service.AuthenticateService;
 import com.example.CRM.user.mapper.UserMapperImpl;
 import com.example.CRM.Auth.user.model.User;
 import com.example.CRM.Auth.user.model.record.UserRecord;
-import com.example.CRM.Auth.user.model.reponsese.UserDTO;
 import com.example.CRM.Auth.user.repository.UserRepository;
 import com.example.CRM.Auth.user.service.UserService;
 import com.example.CRM.Auth.user.service.UserServiceImpl;
@@ -127,7 +127,7 @@ class UserRestControllerDiffblueTest {
                         authenticateService, mailService, JsonMapper.builder().findAndAddModules().build()));
 
         // Act
-        ResponseEntity<UserDTO> actualCreateUserResult = userRestController
+        ResponseEntity<PublicUserDTO> actualCreateUserResult = userRestController
                 .createUser(new UserRecord(UUID.randomUUID(), "jane.doe@example.org", "iloveyou", "Dr Jane Doe", "6625550144",
                         "Avatar", "Experience", User.Gender.MALE, User.StatusVerified.PENDING));
 
@@ -135,7 +135,7 @@ class UserRestControllerDiffblueTest {
         verify(userRepository).save(isA(User.class));
         HttpStatusCode statusCode = actualCreateUserResult.getStatusCode();
         assertTrue(statusCode instanceof HttpStatus);
-        UserDTO body = actualCreateUserResult.getBody();
+        PublicUserDTO body = actualCreateUserResult.getBody();
         assertEquals("iloveyou", body.getPassword());
         assertEquals("jane.doe@example.org", body.getEmail());
         assertEquals(201, actualCreateUserResult.getStatusCodeValue());
@@ -236,7 +236,7 @@ class UserRestControllerDiffblueTest {
                         authenticateService, mailService, JsonMapper.builder().findAndAddModules().build()));
 
         // Act
-        ResponseEntity<UserDTO> actualUpdateUserResult = userRestController
+        ResponseEntity<PublicUserDTO> actualUpdateUserResult = userRestController
                 .updateUser(new UserRecord(UUID.randomUUID(), "jane.doe@example.org", "iloveyou", "Dr Jane Doe", "6625550144",
                         "Avatar", "Experience", User.Gender.MALE, User.StatusVerified.PENDING));
 
@@ -245,7 +245,7 @@ class UserRestControllerDiffblueTest {
         verify(userRepository).save(isA(User.class));
         HttpStatusCode statusCode = actualUpdateUserResult.getStatusCode();
         assertTrue(statusCode instanceof HttpStatus);
-        UserDTO body = actualUpdateUserResult.getBody();
+        PublicUserDTO body = actualUpdateUserResult.getBody();
         assertEquals("iloveyou", body.getPassword());
         assertEquals("jane.doe@example.org", body.getEmail());
         assertEquals(200, actualUpdateUserResult.getStatusCodeValue());
@@ -282,7 +282,7 @@ class UserRestControllerDiffblueTest {
         MailService mailService = mock(MailService.class);
 
         // Act
-        ApiReponsese<PageReponsese<UserDTO>> actualUsers = (new UserRestController(
+        ApiReponsese<PageReponsese<PublicUserDTO>> actualUsers = (new UserRestController(
                 new UserServiceImpl(userRepository, userMapper, passwordEncoder, applicationUrlService, redisService,
                         authenticateService, mailService, JsonMapper.builder().findAndAddModules().build()))).getUsers(3, 1,
                 "Sort By", "Sort Direction");
@@ -291,7 +291,7 @@ class UserRestControllerDiffblueTest {
         verify(userRepository).findAll(isA(Pageable.class));
         assertNull(actualUsers.getMessage());
         assertNull(actualUsers.getErrors());
-        PageReponsese<UserDTO> result = actualUsers.getResult();
+        PageReponsese<PublicUserDTO> result = actualUsers.getResult();
         assertEquals(0, result.getNumber());
         assertEquals(0, result.getNumberOfElements());
         assertEquals(0, result.getSize());
@@ -381,8 +381,8 @@ class UserRestControllerDiffblueTest {
         //   Diffblue AI was unable to find a test
 
         // Arrange
-        PageReponsese.PageReponseseBuilder<UserDTO> builderResult = PageReponsese.builder();
-        PageReponsese<UserDTO> buildResult = builderResult.data(new ArrayList<>())
+        PageReponsese.PageReponseseBuilder<PublicUserDTO> builderResult = PageReponsese.builder();
+        PageReponsese<PublicUserDTO> buildResult = builderResult.data(new ArrayList<>())
                 .empty(true)
                 .first(true)
                 .last(true)

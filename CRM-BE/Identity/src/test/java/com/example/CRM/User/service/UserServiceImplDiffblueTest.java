@@ -28,7 +28,7 @@ import com.example.CRM.user.mapper.UserMapperImpl;
 import com.example.CRM.Auth.user.model.User;
 import com.example.CRM.Auth.user.model.record.ChangePasswordRecord;
 import com.example.CRM.Auth.user.model.record.UserRecord;
-import com.example.CRM.Auth.user.model.reponsese.UserDTO;
+import com.example.CRM.Auth.user.model.reponsese.PublicUserDTO;
 import com.example.CRM.Auth.user.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -178,7 +178,7 @@ class UserServiceImplDiffblueTest {
                 JsonMapper.builder().findAndAddModules().build());
 
         // Act
-        UserDTO actualSaveResult = userServiceImpl
+        PublicUserDTO actualSaveResult = userServiceImpl
                 .save(new UserRecord(UUID.randomUUID(), "jane.doe@example.org", "iloveyou", "Dr Jane Doe", "6625550144",
                         "Avatar", "Experience", User.Gender.MALE, User.StatusVerified.PENDING));
 
@@ -748,7 +748,7 @@ class UserServiceImplDiffblueTest {
                 JsonMapper.builder().findAndAddModules().build());
 
         // Act
-        GenericMapper<UserRecord, User, UserDTO> actualMapper = userServiceImpl.getMapper();
+        GenericMapper<UserRecord, User, PublicUserDTO> actualMapper = userServiceImpl.getMapper();
         userServiceImpl.getRepository();
 
         // Assert

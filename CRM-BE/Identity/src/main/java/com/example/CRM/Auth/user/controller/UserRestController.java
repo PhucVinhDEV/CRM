@@ -1,6 +1,7 @@
 package com.example.CRM.Auth.user.controller;
 
 
+import com.example.CRM.Auth.user.model.reponsese.PublicUserDTO;
 import com.example.CRM.common.model.PageReponsese;
 import com.example.CRM.common.reponsese.ApiReponsese;
 import com.example.CRM.common.util.DateTimeUtil;
@@ -8,7 +9,6 @@ import com.example.CRM.common.validate.group.InsertInfo;
 import com.example.CRM.common.validate.group.UpdateInfo;
 import com.example.CRM.Auth.security.util.AuthorizeUtil;
 import com.example.CRM.Auth.user.model.record.UserRecord;
-import com.example.CRM.Auth.user.model.reponsese.UserDTO;
 import com.example.CRM.Auth.user.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -33,21 +33,21 @@ public class UserRestController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@Validated(InsertInfo.class) @RequestBody UserRecord record) {
+    public ResponseEntity<PublicUserDTO> createUser(@Validated(InsertInfo.class) @RequestBody UserRecord record) {
         log.info("Create User: {Test}", record);
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(record));
 
     }
 
     @PutMapping
-    public ResponseEntity<UserDTO> updateUser(@Validated(UpdateInfo.class) @RequestBody UserRecord record) {
+    public ResponseEntity<PublicUserDTO> updateUser(@Validated(UpdateInfo.class) @RequestBody UserRecord record) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.update(record.id(),record));
     }
 
     @GetMapping
     @PreAuthorize(AuthorizeUtil.ADMIN)
     @SecurityRequirement(name = "bearer-key")
-    public ApiReponsese<PageReponsese<UserDTO>> getUsers(
+    public ApiReponsese<PageReponsese<PublicUserDTO>> getUsers(
             @RequestParam int pageSize,
             @RequestParam int page,
             @RequestParam(defaultValue = "id") String sortBy,
@@ -62,10 +62,10 @@ public class UserRestController {
         Pageable pageable = PageRequest.of(page, pageSize, sort);
 
         // Gọi service với phân trang
-        PageReponsese<UserDTO> usersPage = userService.findAllByPage(pageable);
+        PageReponsese<PublicUserDTO> usersPage = userService.findAllByPage(pageable);
 
         // Trả về danh sách UserDTO (hoặc thông tin phân trang nếu cần)
-        return ApiReponsese.<PageReponsese<UserDTO>>builder()
+        return ApiReponsese.<PageReponsese<PublicUserDTO>>builder()
                 .result(usersPage)
                 .timestamp(DateTimeUtil.now())
                 .build();

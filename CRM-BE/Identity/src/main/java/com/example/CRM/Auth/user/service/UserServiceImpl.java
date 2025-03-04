@@ -1,7 +1,11 @@
 package com.example.CRM.Auth.user.service;
 
+import com.example.CRM.Auth.Benifit.repository.BenefitRepository;
+import com.example.CRM.Auth.role.repository.RoleRepository;
+import com.example.CRM.Auth.security.dto.AuthenticationResponse;
 import com.example.CRM.Auth.user.model.record.ChangePasswordRecord;
 import com.example.CRM.Auth.user.model.record.UserRecord;
+import com.example.CRM.Auth.user.model.reponsese.PublicUserDTO;
 import com.example.CRM.Auth.user.repository.UserRepository;
 import com.example.CRM.Auth.MailAuthen.service.MailService;
 import com.example.CRM.Auth.MailAuthen.util.EmailSubjectEnum;
@@ -9,14 +13,14 @@ import com.example.CRM.Auth.MailAuthen.util.TypeMailEnum;
 import com.example.CRM.common.exception.AppException;
 import com.example.CRM.common.mapper.GenericMapper;
 import com.example.CRM.common.service.ApplicationUrlService;
+import com.example.CRM.common.util.BenefitUtil;
 import com.example.CRM.common.util.MessageUtil;
+import com.example.CRM.common.util.RoleNameUtil;
 import com.example.CRM.redis.service.RedisService;
 import com.example.CRM.Auth.security.service.AuthenticateService;
 import com.example.CRM.Auth.user.mapper.UserMapper;
 import com.example.CRM.Auth.user.model.User;
-import com.example.CRM.Auth.user.model.reponsese.UserDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,7 +40,8 @@ public class UserServiceImpl implements UserService {
     private final RedisService redisService;
     private final AuthenticateService authenticateService;
     private final MailService mailService;
-    private final ObjectMapper objectMapper;
+    private final BenefitRepository benefitRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     public JpaRepository<User, UUID> getRepository() {
@@ -44,17 +49,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public GenericMapper<UserRecord, User, UserDTO> getMapper() {
+    public GenericMapper<UserRecord, User, PublicUserDTO> getMapper() {
         return userMapper;
     }
 
 
     @Override
-    public UserDTO save(UserRecord record) {
+    public PublicUserDTO save(UserRecord record) {
         User user = userMapper.maptoEntity(record);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
         return userMapper.maptoDto(userRepository.save(user));
+    }
+
+    @Override
+    public AuthenticationResponse Register(UserRecord record) {
+        User user = userMapper.maptoEntity(record);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setBenefit(benefitRepository.findByName(BenefitUtil.GUEST).orElseThrow(
+                () -> new RuntimeException("Benefit not found")
+        ));
+        user.setRole(roleRepository.findByRoleName(RoleNameUtil.MARKETER).orElseThrow(
+                () -> new RuntimeException("Role not found")
+        ));
+        User savedUser = userRepository.save(user);
+        return authenticateService.authenticate(savedUser.getEmail(),record.password());
+    }
+
+    @Override
+    public PublicUserDTO getMySelf() {
+        User user = authenticateService.getAuthenticatedAccount();
+        return userMapper.maptoDto(user);
     }
 
     @Override

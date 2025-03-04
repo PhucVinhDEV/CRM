@@ -1,22 +1,25 @@
 package com.example.CRM.Auth.user.service;
 
 
+import com.example.CRM.Auth.security.dto.AuthenticationResponse;
 import com.example.CRM.Auth.user.model.record.UserRecord;
+import com.example.CRM.Auth.user.model.reponsese.PublicUserDTO;
 import com.example.CRM.common.service.GenericService;
 
 import com.example.CRM.Auth.user.model.User;
 
 import com.example.CRM.Auth.user.model.record.ChangePasswordRecord;
-import com.example.CRM.Auth.user.model.reponsese.UserDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
-public interface UserService extends GenericService<User, UserRecord, UserDTO, UUID> {
+public interface UserService extends GenericService<User, UserRecord, PublicUserDTO, UUID> {
     @Override
-     UserDTO save(UserRecord record);
+    PublicUserDTO save(UserRecord record);
+    AuthenticationResponse Register(UserRecord record);
+    PublicUserDTO getMySelf();
     String ForgotPassword(String email) throws JsonProcessingException;
     boolean isChangePassword(ChangePasswordRecord changePasswordRecord);
     boolean VerifyLinkChangePassword(String id, String newPassword);

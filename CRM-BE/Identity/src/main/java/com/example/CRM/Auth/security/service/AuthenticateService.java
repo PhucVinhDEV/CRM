@@ -21,7 +21,7 @@ import java.util.UUID;
 
 @Service
 public interface AuthenticateService {
-    AuthenticationResponse authenticate(String username, String password);
+    AuthenticationResponse authenticate(String email, String password);
     void Logout(UUID uuid);
     User getAuthenticatedAccount();
 }
@@ -40,8 +40,8 @@ class AuthenticateServiceImpl implements AuthenticateService {
     private RedisService redisService;
 
     @Override
-    public AuthenticationResponse authenticate(String username, String password) {
-        var user = userRepository.findByEmail(username).orElseThrow(() -> new RuntimeException(MessageUtil.EMAIL_NOT_EXIST));
+    public AuthenticationResponse authenticate(String email, String password) {
+        var user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException(MessageUtil.EMAIL_NOT_EXIST));
         boolean authenticated = passwordEncoder.matches(password, user.getPassword());
         if (!authenticated) {
             throw new RuntimeException(MessageUtil.PASSWORD_NOT_CORRECT);
@@ -62,12 +62,8 @@ class AuthenticateServiceImpl implements AuthenticateService {
     @Override
     public User getAuthenticatedAccount() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof UsernamePasswordAuthenticationToken) {
-            return userRepository.findByEmail(authentication.getName()).orElseThrow(
+            return userRepository.findById(UUID.fromString(authentication.getName())).orElseThrow(
                     () -> new AppException(MessageUtil.EMAIL_NOT_EXIST)
             );
-        }else {
-            throw new AppException(MessageUtil.ACCESS_TOKEN_INVALID);
-        }
     }
 }
