@@ -23,12 +23,6 @@ public class StatisticService {
             // Log nhận message
             logger.info("Received: " + statistic);
 
-            // Nếu ID là 0, đặt lại thành null để Hibernate tự sinh
-            if (statistic.getId() == 0) {
-                logger.warn("Statistic ID is 0, setting to null before saving.");
-                statistic.setId(null);
-            }
-
             statisticRepo.save(statistic);
 
         } catch (Exception e) {

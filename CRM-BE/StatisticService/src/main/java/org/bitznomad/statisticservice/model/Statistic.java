@@ -15,7 +15,11 @@ import java.util.Date;
 public class Statistic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+
+    @Version // Hibernate sẽ kiểm tra xung đột version trước khi cập nhật
+    private int version;
+
     private String message;
 
     @Temporal(TemporalType.TIMESTAMP) // Đảm bảo lưu Date dạng TIMESTAMP trong DB

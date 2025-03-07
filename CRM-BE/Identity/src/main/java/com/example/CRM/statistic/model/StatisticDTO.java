@@ -1,10 +1,8 @@
 package com.example.CRM.statistic.model;
 
 import com.example.CRM.common.util.DateTimeUtil;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.CRM.common.util.SnowflakeIdGenerator;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -13,10 +11,15 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
+@Table(name = "j_statistic")
 public class StatisticDTO {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
+
+    @Version // Hibernate sẽ kiểm tra xung đột version trước khi cập nhật
+    private int version;
 
     private String message;
 
@@ -24,7 +27,8 @@ public class StatisticDTO {
 
     private boolean status;
 
-    public StatisticDTO(String createdDate, String message, boolean status) {
+    // Khi tạo object mới, ID sẽ tự sinh từ Snowflake
+    public StatisticDTO(String message, boolean status) {
         this.createdDate = DateTimeUtil.now();
         this.message = message;
         this.status = status;

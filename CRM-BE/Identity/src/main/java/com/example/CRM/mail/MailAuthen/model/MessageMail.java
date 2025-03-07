@@ -1,42 +1,50 @@
 package com.example.CRM.mail.MailAuthen.model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
+
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Mail {
+@Entity
+@Table(name = "J_MESSAGE_EMAIL")
+public class MessageMail {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @NotBlank(message = "Vui lòng nhập Email gửi")
-    @Email
+    @Column(name = "email_from", nullable = false) // Đổi tên cột từ "from" → "email_from"
     String from;
 
     @NotBlank(message = "Vui lòng nhập Email nhận")
     @Email
+    @Column(name = "email_to", nullable = false) // Đổi tên cột từ "from" → "email_from"
     String to;
-
-    String[] cc;
-
-    String[] bcc;
 
     @NotBlank(message = "Vui lòng nhập tiêu đề")
     String subject;
 
+    @Lob
+    @Column(columnDefinition = "TEXT", nullable = false)
     @NotBlank(message = "Vui lòng nhập tin nhắn")
     String body;
 
-    MultipartFile[] attachments;
+    private boolean status;
 
-    public Mail(String to, String subject, String body) {
+    public MessageMail(String to, String subject, String body) {
         this.from = "BitzNomad@gmail.com";
         this.to = to;
         this.subject = subject;
         this.body = body;
     }
+
 }

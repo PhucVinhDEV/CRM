@@ -21,10 +21,6 @@ public class MailInfo {
     @Email
     String to;
 
-    String[] cc;
-
-    String[] bcc;
-
     @NotBlank(message = "Vui lòng nhập tiêu đề")
     String subject;
 
