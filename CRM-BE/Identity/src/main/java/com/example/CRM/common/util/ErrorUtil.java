@@ -1,7 +1,7 @@
 package com.example.CRM.common.util;
 
 import com.example.CRM.common.exception.AppException;
-import com.example.CRM.Auth.user.model.User;
+import com.example.CRM.user.user.model.User;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;

@@ -15,7 +15,7 @@ public class CRMApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CRMApplication.class, args);
-		System.out.println("http://localhost:8888/bitznomad/swagger");
+		System.out.println("http://localhost:8080/bitznomad/swagger");
 //		// Create workbook and sheet
 //		Workbook workbook = new XSSFWorkbook();
 //		Sheet sheet = workbook.createSheet("Customer Data");

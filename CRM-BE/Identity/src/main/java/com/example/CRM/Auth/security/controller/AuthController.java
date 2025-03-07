@@ -1,9 +1,9 @@
 package com.example.CRM.Auth.security.controller;
 import com.example.CRM.Auth.Oauth2.service.Oauth2Service;
 import com.example.CRM.Auth.security.util.AuthorizeUtil;
-import com.example.CRM.Auth.user.model.record.UserRecord;
-import com.example.CRM.Auth.user.model.reponsese.PublicUserDTO;
-import com.example.CRM.Auth.user.service.UserService;
+import com.example.CRM.user.user.model.record.UserRecord;
+import com.example.CRM.user.user.model.reponsese.PublicUserDTO;
+import com.example.CRM.user.user.service.UserService;
 import com.example.CRM.common.reponsese.ApiReponsese;
 import com.example.CRM.common.util.DateTimeUtil;
 import com.example.CRM.Auth.security.dto.AuthenticationResponse;
@@ -13,6 +13,7 @@ import com.example.CRM.Auth.security.service.JWTService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nimbusds.jose.JOSEException;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -24,11 +25,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.time.Duration;
-import java.util.Map;
 import java.util.UUID;
 
 @RequestMapping("/api/v1/auth")
 @RestController
+@Tag(name = "Auth Controller", description = "API for authentication and authorization")
 public class AuthController {
 
     @Value("${spring.security.RefreshExperienceTime}")
@@ -47,11 +48,19 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ApiReponsese<AuthenticationResponse> register(@RequestBody UserRecord record){
-        return ApiReponsese.<AuthenticationResponse>builder()
-                .message("Register Successfully")
-                .result(userService.Register(record))
+    public ResponseEntity<?> register(@RequestBody UserRecord record,HttpServletResponse response){
+        AuthenticationResponse authenticationResponse = userService.Register(record);
+        ResponseCookie cookie = ResponseCookie.from("refresh_token", authenticationResponse.getToken().getRefreshtoken())
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("Strict")
+                .path("/") // Dùng "/" để áp dụng cho toàn bộ domain
+                .maxAge(Duration.ofHours(refreshExperienceTime)) // Refresh Token có hạn 7 ngày
                 .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        return ResponseEntity.ok(ApiReponsese.builder()
+                .result(authenticationResponse.getToken().getAccesstoken())
+                .build());
         }
 
 
@@ -153,6 +162,14 @@ public class AuthController {
         return ApiReponsese.<AuthenticationResponse>builder()
                 .timestamp(DateTimeUtil.now())
                 .result(oauth2Service.OutboundService(code))
+                .build();
+    }
+    @PostMapping("/forget-password")
+    @PreAuthorize(AuthorizeUtil.NONE)
+    public ApiReponsese<String> processForgotPassword(@RequestParam("email") String email) throws JsonProcessingException {
+        return ApiReponsese.<String>builder()
+                .timestamp(DateTimeUtil.now())
+                .result(userService.ForgotPassword(email))
                 .build();
     }
 }

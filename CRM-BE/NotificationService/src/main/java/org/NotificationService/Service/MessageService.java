@@ -15,8 +15,9 @@ public class MessageService {
 
     @KafkaListener(id = "notificationGroup", topics = "notification")
     public void listen(MailInfo mailInfo) throws MessagingException {
+//        log.info("Message received: " + mailInfo.getFrom());
         log.info("Received MessageDTO: {}", mailInfo.getTo());
-        log.info("Received MessageDTO: {}", mailInfo.getBody());
+//        log.info("Received MessageDTO: {}", mailInfo.getBody());
 //        mailerService.sendVerify(mailInfo);
     }
 }

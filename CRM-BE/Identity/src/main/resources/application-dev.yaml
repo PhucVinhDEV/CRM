@@ -31,18 +31,20 @@ spring:
         AccessExperienceTime: 30  # Thời gian hết hạn Access Token (đơn vị: phút)
         RefreshExperienceTime: 168  # Thời gian hết hạn Refresh Token (đơn vị: giờ)
   kafka:
-    bootstrap-servers: ${HOST_IP_ADDRESS:localhost}:9092,${HOST_IP_ADDRESS:localhost}:9093,${HOST_IP_ADDRESS:localhost}:9094  # Đọc từ biến môi trường
+    bootstrap-servers: ${HOST_IP_ADDRESS:localhost}:9092,${HOST_IP_ADDRESS:localhost}:9093,${HOST_IP_ADDRESS:localhost}:9094  # Đọc từ biến môi trường, cấu hình các máy chủ Kafka (các broker).
+    # Nếu biến môi trường HOST_IP_ADDRESS không có giá trị, mặc định sử dụng localhost.
     producer:
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      acks: "-1"
-      retries: 3
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer  # Cấu hình trình tuần tự hóa giá trị của producer là JsonSerializer, có nghĩa là dữ liệu gửi đi sẽ được tuần tự hóa dưới dạng JSON.
+      acks: "-1"  # Xác nhận của producer, giá trị "-1" có nghĩa là producer sẽ đợi tất cả các broker đã ghi dữ liệu thành công trước khi trả lời xác nhận.
+      retries: 3  # Số lần thử lại khi có lỗi xảy ra trong quá trình gửi message. Mặc định là 3 lần thử lại.
       properties:
-        request.timeout.ms: 5
-        enable.idempotence: true
-        max.in.flight.requests.per.connection: 5
+        request.timeout.ms: 1  # Thời gian tối đa (tính bằng mili giây) mà producer sẽ đợi để nhận phản hồi từ broker sau khi gửi message. Giá trị "1" có nghĩa là thời gian đợi là 1 mili giây.
+        enable.idempotence: true  # Bật tính năng idempotence, đảm bảo rằng một message chỉ được gửi một lần và tránh gửi lại khi có sự cố mạng hoặc lỗi gửi message.
+        max.in.flight.requests.per.connection: 5  # Cấu hình số lượng yêu cầu tối đa mà producer có thể gửi trên mỗi kết nối tới broker mà chưa nhận được phản hồi. Giới hạn này giúp tránh tình trạng quá tải trên broker.
+
 
 server:
-  port: 8888
+  port: 8080
   servlet:
     context-path: /bitznomad
 springdoc:

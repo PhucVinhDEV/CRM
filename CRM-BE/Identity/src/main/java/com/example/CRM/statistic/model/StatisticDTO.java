@@ -1,21 +1,21 @@
 package com.example.CRM.statistic.model;
 
+import com.example.CRM.common.util.DateTimeUtil;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 
-import java.util.Date;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@AllArgsConstructor
 public class StatisticDTO {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String message;
@@ -23,5 +23,11 @@ public class StatisticDTO {
     private String createdDate;
 
     private boolean status;
+
+    public StatisticDTO(String createdDate, String message, boolean status) {
+        this.createdDate = DateTimeUtil.now();
+        this.message = message;
+        this.status = status;
+    }
 
 }

@@ -2,8 +2,8 @@ package com.example.CRM.user.controller;
 
 import static org.mockito.Mockito.when;
 
-import com.example.CRM.Auth.user.controller.ChangePasswordController;
-import com.example.CRM.Auth.user.service.UserService;
+import com.example.CRM.user.user.controller.ChangePasswordController;
+import com.example.CRM.user.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

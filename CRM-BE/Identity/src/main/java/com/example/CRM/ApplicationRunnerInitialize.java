@@ -1,17 +1,16 @@
 package com.example.CRM;
 
 
-import com.example.CRM.Auth.Benifit.model.Benefit;
-import com.example.CRM.Auth.Benifit.repository.BenefitRepository;
+import com.example.CRM.user.Benifit.model.Benefit;
+import com.example.CRM.user.Benifit.repository.BenefitRepository;
 import com.example.CRM.Auth.role.model.Role;
-import com.example.CRM.Auth.user.model.User;
+import com.example.CRM.user.user.model.User;
 import com.example.CRM.Customer.CustomerEAV.model.record.AttributeRecord;
 import com.example.CRM.Customer.CustomerEAV.model.record.CustomerRecord;
-import com.example.CRM.Customer.CustomerEAV.repository.CustomerRepository;
 import com.example.CRM.Customer.CustomerEAV.service.AttributeService;
 import com.example.CRM.Customer.CustomerEAV.service.CustomerService;
 import com.example.CRM.Auth.role.repository.RoleRepository;
-import com.example.CRM.Auth.user.repository.UserRepository;
+import com.example.CRM.user.user.repository.UserRepository;
 import com.example.CRM.Customer.CustomerEAV.util.TypeOfValue;
 import com.example.CRM.common.util.BenefitUtil;
 import com.example.CRM.common.util.RoleNameUtil;
@@ -23,7 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

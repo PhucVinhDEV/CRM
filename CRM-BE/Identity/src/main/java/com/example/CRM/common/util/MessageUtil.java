@@ -1,6 +1,6 @@
 package com.example.CRM.common.util;
 
-import com.example.CRM.Auth.user.model.User;
+import com.example.CRM.user.user.model.User;
 import lombok.experimental.UtilityClass;
 import org.springframework.context.MessageSource;
 
