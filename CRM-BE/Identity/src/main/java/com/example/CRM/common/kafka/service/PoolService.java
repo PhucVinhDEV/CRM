@@ -3,6 +3,7 @@ package com.example.CRM.common.kafka.service;
 import com.example.CRM.common.kafka.util.TopicUtil;
 import com.example.CRM.mail.MailAuthen.model.MessageMail;
 import com.example.CRM.mail.MailAuthen.repository.MessageMailRepository;
+import com.example.CRM.mail.MailAuthen.service.MailService;
 import com.example.CRM.statistic.model.StatisticDTO;
 import com.example.CRM.statistic.repository.StatisticRepository;
 import io.micrometer.core.instrument.Statistic;
@@ -21,12 +22,13 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 public class PoolService {
     private final MessageMailRepository messageMailRepository;
+    private final MailService mailService;
     private final StatisticRepository statisticRepository;
     private final KafkaTemplate kafkaTemplate;
 
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 2000)
     public void producer(){
-        List<MessageMail> messageMails = messageMailRepository.findByStatus(false);
+        List<MessageMail> messageMails = mailService.getAllMessagesByStatus(false);
         for (MessageMail messageMail : messageMails) {
             CompletableFuture<SendResult<String, Object>> future = kafkaTemplate.send(TopicUtil.NOTIFICATION_TOPIC, messageMail);
             // Add a callback to handle success and failure scenarios using CompletableFuture API
@@ -60,11 +62,10 @@ public class PoolService {
 
     }
 
-    @Scheduled(fixedDelay = 60000)
+    @Scheduled(fixedDelay = 300000)
     public void delete() {
         List<MessageMail> messageDTOs = messageMailRepository.findByStatus(true);
         messageMailRepository.deleteAllInBatch(messageDTOs);
-
         List<StatisticDTO> statisticDTOs = statisticRepository.findByStatus(true);
         statisticRepository.deleteAllInBatch(statisticDTOs);
     }

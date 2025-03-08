@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.core.KafkaOperations;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.converter.JsonMessageConverter;
@@ -21,13 +22,21 @@ public class StatisticServiceApplication {
         return new JsonMessageConverter();
     }
 
-//    @Bean
-//    DefaultErrorHandler errorHandler(KafkaOperations<Object, Object> template) {
-//        return new DefaultErrorHandler(new DeadLetterPublishingRecoverer(template), new FixedBackOff(1000L, 2));
-//    }
-//
-//    @Bean
-//    NewTopic dlt() {
-//        return new NewTopic("statistic.DLT", 1, (short) 1);
-//    }
+    @Bean
+    DefaultErrorHandler errorHandler(KafkaOperations<Object, Object> template) {
+        DefaultErrorHandler errorHandler = new DefaultErrorHandler(
+                new DeadLetterPublishingRecoverer(template), new FixedBackOff(1000L, 2)
+        );
+
+        errorHandler.setRetryListeners((record, exception, deliveryAttempt) -> {
+            System.out.printf("Failed to process record: %s, Exception: %s, Attempt: %d%n",
+                    record, exception.getMessage(), deliveryAttempt);
+        });
+        return errorHandler;
+    }
+
+    @Bean
+    NewTopic dlt() {
+        return new NewTopic("statistic.DLT", 1, (short) 1);
+    }
 }

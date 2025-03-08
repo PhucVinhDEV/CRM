@@ -38,7 +38,7 @@ spring:
       acks: "-1"  # Xác nhận của producer, giá trị "-1" có nghĩa là producer sẽ đợi tất cả các broker đã ghi dữ liệu thành công trước khi trả lời xác nhận.
       retries: 3  # Số lần thử lại khi có lỗi xảy ra trong quá trình gửi message. Mặc định là 3 lần thử lại.
       properties:
-        request.timeout.ms: 1  # Thời gian tối đa (tính bằng mili giây) mà producer sẽ đợi để nhận phản hồi từ broker sau khi gửi message. Giá trị "1" có nghĩa là thời gian đợi là 1 mili giây.
+        request.timeout.ms: 5  # Thời gian tối đa (tính bằng mili giây) mà producer sẽ đợi để nhận phản hồi từ broker sau khi gửi message. Giá trị "1" có nghĩa là thời gian đợi là 1 mili giây.
         enable.idempotence: true  # Bật tính năng idempotence, đảm bảo rằng một message chỉ được gửi một lần và tránh gửi lại khi có sự cố mạng hoặc lỗi gửi message.
         max.in.flight.requests.per.connection: 5  # Cấu hình số lượng yêu cầu tối đa mà producer có thể gửi trên mỗi kết nối tới broker mà chưa nhận được phản hồi. Giới hạn này giúp tránh tình trạng quá tải trên broker.
 
@@ -60,7 +60,7 @@ logging:
         http: DEBUG
         batch: DEBUG # Bật logging cho Spring Batch
       hibernate:
-        SQL: DEBUG  # Bật logging cho các câu lệnh SQL
+        SQL: error  # Bật logging cho các câu lệnh SQL
         type: TRACE # Bật logging chi tiết cho các tham số SQL
 outbound:
   identity:

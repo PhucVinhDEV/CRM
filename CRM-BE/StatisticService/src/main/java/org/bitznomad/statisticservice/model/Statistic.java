@@ -14,11 +14,8 @@ import java.util.Date;
 @Setter
 public class Statistic {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Version // Hibernate sẽ kiểm tra xung đột version trước khi cập nhật
-    private int version;
 
     private String message;
 

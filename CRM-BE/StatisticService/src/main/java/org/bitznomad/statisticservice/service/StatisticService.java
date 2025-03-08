@@ -1,5 +1,8 @@
 package org.bitznomad.statisticservice.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import lombok.extern.slf4j.Slf4j;
 import org.bitznomad.statisticservice.model.Statistic;
 import org.bitznomad.statisticservice.repository.StatisticRepo;
 import org.slf4j.Logger;
@@ -7,10 +10,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class StatisticService {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     private StatisticRepo statisticRepo;
@@ -20,26 +28,20 @@ public class StatisticService {
     @KafkaListener(id = "statisticGroup", topics = "statistic")
     public void listen(Statistic statistic) {
         try {
-            // Log nhận message
-            logger.info("Received: " + statistic);
-
-            statisticRepo.save(statistic);
+            log.info("Received: " + statistic);
+            entityManager.merge(statistic);
+//            throw new RuntimeException("failed");
 
         } catch (Exception e) {
-            // Ghi lại lỗi nhưng không retry
-            logger.error("Error processing message", e);
-
-            // Bạn có thể ném lại ngoại lệ hoặc để nó dừng lại tại đây
-            // Không retry hoặc không tái thử gửi lại message
-            // throw e;  // Nếu bạn muốn ném lại ngoại lệ cho các xử lý khác (ví dụ DLQ)
+            log.error("Error with details: " + e.getMessage(), e);
         }
+
     }
 
 
-
-//    @KafkaListener(id = "dltGroup3", topics = "statistic.DLT")
-//    public void dltListen(String in) {
-//        logger.info("Received from DLT: ");
-//        System.out.println(in);
-//    }
+    @KafkaListener(id = "dltGroup3", topics = "statistic.DLT")
+    public void dltListen(String in) {
+        log.info("Received from DLT: ");
+        System.out.println(in);
+    }
 }

@@ -15,14 +15,17 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public interface MailService {
     Boolean sendWithTemplate(String email, String content, EmailSubjectEnum subject, TypeMailEnum type);
+    List<MessageMail> getAllMessagesByStatus(boolean status);
 }
 @AllArgsConstructor
 @Service
@@ -73,6 +76,13 @@ class MailServiceImpl implements MailService {
         return true;
 
     }
+
+    @Override
+    @Transactional
+    public List<MessageMail> getAllMessagesByStatus(boolean status) {
+        return messageMailRepository.findByStatus(status);
+    }
+
     private void sendHtmlEmail(MessageMail mail, StatisticDTO statisticDTO) throws MessagingException {
         statisticRepository.save(statisticDTO);
         messageMailRepository.save(mail);
@@ -86,4 +96,5 @@ class MailServiceImpl implements MailService {
             throw new AppException(e.getMessage());
         }
     }
+
 }
