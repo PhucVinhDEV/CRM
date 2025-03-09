@@ -9,8 +9,10 @@ public class EndponitUtil {
             "/api/auth/login",
             "/api/auth/refresh",
             "/api/user/secure-action",
-            "/change-password"
+            "/change-password",
+            "/api/auth/outbound",
     };
+
     String[] PUBLIC_GET_ENDPOINTS = {};
     String[] PRIVATE_GET_ENDPOINTS = {};
     public boolean isRedisSecuredEndpoint(String requestURI) {

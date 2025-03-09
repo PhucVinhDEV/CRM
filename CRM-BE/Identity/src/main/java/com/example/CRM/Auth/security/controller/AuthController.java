@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.time.Duration;
+import java.util.Map;
 import java.util.UUID;
 
 @RequestMapping("/api/v1/auth")
@@ -101,6 +102,24 @@ public class AuthController {
                         .result(authenticationResponse.getToken().getAccesstoken())
                 .build());
     }
+    @PostMapping("/outbound")
+    public ResponseEntity<?> outbound(@RequestBody Map<String, String> request, HttpServletResponse response) throws JsonProcessingException {
+        String code = request.get("code");
+        String redirectURI = request.get("RedirectURI");
+        String codeVerifier = request.get("codeVerifier");
+        AuthenticationResponse authenticationResponse = oauth2Service.OutboundService(code,redirectURI,codeVerifier);
+        ResponseCookie cookie = ResponseCookie.from("refresh_token",  authenticationResponse.getToken().getRefreshtoken())
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("Strict")
+                .path("/") // Dùng "/" để áp dụng cho toàn bộ domain
+                .maxAge(Duration.ofHours(refreshExperienceTime)) // Refresh Token có hạn 7 ngày
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        return ResponseEntity.ok(ApiReponsese.builder()
+                .result(authenticationResponse.getToken().getAccesstoken())
+                .build());
+    }
 
     @GetMapping("/myself")
     @SecurityRequirement(name = "bearer-key")
@@ -156,14 +175,7 @@ public class AuthController {
                 .build();
     }
 
-    @PostMapping("/outbound")
-    @PreAuthorize(AuthorizeUtil.NONE)
-    public ApiReponsese<AuthenticationResponse> outbound(@RequestParam String code) throws JsonProcessingException {
-        return ApiReponsese.<AuthenticationResponse>builder()
-                .timestamp(DateTimeUtil.now())
-                .result(oauth2Service.OutboundService(code))
-                .build();
-    }
+
     @PostMapping("/forget-password")
     @PreAuthorize(AuthorizeUtil.NONE)
     public ApiReponsese<String> processForgotPassword(@RequestParam("email") String email) throws JsonProcessingException {

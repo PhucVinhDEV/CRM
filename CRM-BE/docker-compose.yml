@@ -24,7 +24,7 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-  #
+
   kafka-2:
     image: confluentinc/cp-kafka
     depends_on:
@@ -59,35 +59,35 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-##   microservice
-#  accountservice:
-#    build:
-#      context: ./AccountService # Đảm bảo đúng đường dẫn
-#      dockerfile: Dockerfile
-#    image: account-service
-#    ports:
-#      - 8080:8080
-#    restart: on-failure
-#    env_file:
-#      - ./bitznomad.env
-#
-#
-#  StaticsService:
-#     build:
-#       context: ./StatictisService
-#       dockerfile: Dockerfile
-#     image: statistic-service
-#     ports:
-#       - 8090:8090
-#     restart: on-failure
-#     env_file:
-#       - ./bitznomad.env
-#
-#  notificationservice:
-#     build:
-#       context: ./NotificationService
-#       dockerfile: Dockerfile
-#     image: notification-service
-#     restart: on-failure
-#     env_file:
-#       - bitznomad.env
+#   microservice
+  MainModule:
+    build:
+      context: ./Identity # Đảm bảo đúng đường dẫn
+      dockerfile: Dockerfile
+    image: crm
+    ports:
+      - 8080:8080
+    restart: on-failure
+    env_file:
+      - ./bitznomad.env
+
+
+  StaticsService:
+     build:
+       context: ./StatictisService
+       dockerfile: Dockerfile
+     image: statistic-service
+     ports:
+       - 8090:8090
+     restart: on-failure
+     env_file:
+       - ./bitznomad.env
+
+  notificationservice:
+     build:
+       context: ./NotificationService
+       dockerfile: Dockerfile
+     image: notification-service
+     restart: on-failure
+     env_file:
+       - bitznomad.env

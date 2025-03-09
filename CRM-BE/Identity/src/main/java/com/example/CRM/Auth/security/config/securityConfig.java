@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -45,7 +46,7 @@ public class securityConfig {
 
         //Config endponit authentication
         httpSecurity.authorizeHttpRequests(request -> request
-                        .requestMatchers("/**").permitAll()// Công khai các đường dẫn
+                        .requestMatchers("/**","/auth/api/v1/auth/outbound").permitAll()// Công khai các đường dẫn
                 .anyRequest().authenticated())
                 .addFilterBefore(redisJwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -56,7 +57,14 @@ public class securityConfig {
         httpSecurity.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder())
                         .jwtAuthenticationConverter(jwtAuthenticationConverter())
-                ).authenticationEntryPoint(jwtAuthenticationEntryPoint));
+                ).bearerTokenResolver(request -> {
+                            // Nếu là public endpoint, không cần xác thực token
+                            if (request.getRequestURI().startsWith("/auth/api/v1/auth/outbound")) {
+                                return null; // Trả về null để bỏ qua xác thực token
+                            }
+                            // Sử dụng mặc định cho các endpoints khác
+                            return new DefaultBearerTokenResolver().resolve(request);
+                        }).authenticationEntryPoint(jwtAuthenticationEntryPoint));
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
         httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource()));

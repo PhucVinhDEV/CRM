@@ -26,6 +26,7 @@ public class RedisJwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String requestURI = request.getRequestURI();
+
         if(EndponitUtil.isRedisSecuredEndpoint(requestURI)) {
             String token = extractTokenFromRequest(request);
             String userId = null;
@@ -56,5 +57,14 @@ public class RedisJwtAuthenticationFilter extends OncePerRequestFilter {
 
         // Nếu không có token, trả về null
 
+    }
+
+    // Phương thức để kiểm tra endpoint public
+    private boolean isPublicEndpoint(String requestURI) {
+        return requestURI.startsWith("/auth/api/v1/auth/outbound") ||
+                requestURI.equals("/") ||
+                requestURI.startsWith("/swagger-ui") ||
+                requestURI.startsWith("/v3/api-docs") ||
+                requestURI.startsWith("/actuator");
     }
 }

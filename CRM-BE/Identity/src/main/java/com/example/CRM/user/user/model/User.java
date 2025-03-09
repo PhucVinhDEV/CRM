@@ -21,7 +21,7 @@ public class User extends BaseEntityUUID {
     @Column(name = UserEntity.EMAIL, nullable = false, unique = true)
     private String email;
 
-    @Column(name = UserEntity.PASSWORD, nullable = false)
+    @Column(name = UserEntity.PASSWORD)
     private String password;
 
     @Column(name = UserEntity.FULLNAME, nullable = false)
@@ -61,7 +61,7 @@ public class User extends BaseEntityUUID {
     private Integer usedCustomer;
 
     @Enumerated(EnumType.STRING) // Lưu dưới dạng chuỗi trong DB
-    @Column(name = UserEntity.STATUS_VERIFIED, nullable = false)
+    @Column(name = UserEntity.STATUS_VERIFIED)
     private StatusVerified statusVerified;
 
     @ManyToOne(fetch = FetchType.LAZY)
