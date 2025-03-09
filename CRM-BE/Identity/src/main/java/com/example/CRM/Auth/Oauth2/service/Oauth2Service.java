@@ -8,6 +8,9 @@ import com.example.CRM.Auth.security.dto.AuthenticationResponse;
 import com.example.CRM.Auth.security.service.JWTService;
 import com.example.CRM.common.util.BenefitUtil;
 import com.example.CRM.common.util.RoleNameUtil;
+import com.example.CRM.mail.MailAuthen.service.MailService;
+import com.example.CRM.mail.MailAuthen.util.EmailSubjectEnum;
+import com.example.CRM.mail.MailAuthen.util.TypeMailEnum;
 import com.example.CRM.user.Benifit.model.Benefit;
 import com.example.CRM.user.Benifit.repository.BenefitRepository;
 import com.example.CRM.user.user.model.User;
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Random;
 
 public interface Oauth2Service {
     AuthenticationResponse OutboundService(String code,String redirectURI,String codeVerifier) throws JsonProcessingException;
@@ -61,20 +65,10 @@ class Oauth2ServiceImpl implements Oauth2Service {
     @Autowired
     BenefitRepository benefitRepository;
 
+
     @Override
     @Transactional
     public AuthenticationResponse OutboundService(String code,String redirectURI,String codeVerify) throws JsonProcessingException {
-//        ExchangeTokenRequest request = ExchangeTokenRequest.builder()
-//                .code(code)
-//                .clientId(OUTBOUND_IDENTITY_CLIENT_ID)
-//                .clientSecret(OUTBOUND_IDENTITY_CLIENT_SECRET)
-//                .redirectUri(redirectURI)
-//                .codeVerifier(codeVerify)
-//                .grantType("authorization_code")
-//                .build();
-//        log.info("Request: {}", request); // Log toàn bộ request object
-//
-//        var response = outboundIdentityClient.exchangeToken(request);
         var response = outboundIdentityClient.exchangeToken2(
                 code,
                 OUTBOUND_IDENTITY_CLIENT_ID,
@@ -116,4 +110,5 @@ class Oauth2ServiceImpl implements Oauth2Service {
         }
 
     }
+
 }

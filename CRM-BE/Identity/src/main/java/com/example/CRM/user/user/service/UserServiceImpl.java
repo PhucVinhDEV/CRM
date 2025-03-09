@@ -26,6 +26,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -97,6 +98,8 @@ public class UserServiceImpl implements UserService {
         }
         return MessageUtil.MAIL_AUTHENTICATION_SUCCESS;
     }
+
+
 
     @Override
     public boolean isChangePassword(ChangePasswordRecord changePasswordRecord) {

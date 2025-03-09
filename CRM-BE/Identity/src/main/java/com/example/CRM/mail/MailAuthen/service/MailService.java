@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
 public interface MailService {
@@ -31,9 +32,6 @@ public interface MailService {
 @Service
 class MailServiceImpl implements MailService {
 
-
-    private final KafkaTemplate kafkaTemplate;
-    private final NewTopic statistic;
     private final StatisticRepository statisticRepository;
     private final MessageMailRepository messageMailRepository;
 
@@ -42,10 +40,12 @@ class MailServiceImpl implements MailService {
         try {
             String htmlContent = loadHtmlTemplate(type.getTemplate());
             MessageMail mail = new MessageMail();
-            StatisticDTO statisticDTO = new StatisticDTO("Account" + email + "is Created",false);
+            StatisticDTO statisticDTO = new StatisticDTO();
 
             switch (type) {
                 case OTP -> {
+                    statisticDTO.setMessage("OTP" + email + "is Created");
+                    statisticDTO.setStatus(false);
                     htmlContent = htmlContent.replaceAll("##otp##", content);
                     mail.setFrom("Esmart Company inc.");
                     mail.setSubject(subject.getSubject());
@@ -54,6 +54,8 @@ class MailServiceImpl implements MailService {
                     sendHtmlEmail(mail,statisticDTO);
                 }
                 case VERIFY_LINK -> {
+                    statisticDTO.setMessage("Forgot" + email + "is Created");
+                    statisticDTO.setStatus(false);
                     htmlContent = htmlContent.replaceAll("##verify_link##", content);
                     mail.setFrom("Esmart Company inc.");
                     mail.setSubject(subject.getSubject());
@@ -62,6 +64,8 @@ class MailServiceImpl implements MailService {
                     sendHtmlEmail(mail,statisticDTO);
                 }
                 case PASSWORD -> {
+                    statisticDTO.setMessage("Forgot" + email + "is Created");
+                    statisticDTO.setStatus(false);
                     htmlContent = htmlContent.replaceAll("##password##", content);
                     mail.setFrom("Esmart Company inc.");
                     mail.setSubject(subject.getSubject());
@@ -87,7 +91,6 @@ class MailServiceImpl implements MailService {
         statisticRepository.save(statisticDTO);
         messageMailRepository.save(mail);
 
-
     }
     private String loadHtmlTemplate(String templateName) {
         try (InputStream inputStream = new ClassPathResource(templateName).getInputStream()) {
@@ -96,5 +99,4 @@ class MailServiceImpl implements MailService {
             throw new AppException(e.getMessage());
         }
     }
-
 }

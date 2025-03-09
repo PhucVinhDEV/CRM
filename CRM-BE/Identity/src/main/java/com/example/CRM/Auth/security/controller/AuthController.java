@@ -1,6 +1,8 @@
 package com.example.CRM.Auth.security.controller;
 import com.example.CRM.Auth.Oauth2.service.Oauth2Service;
 import com.example.CRM.Auth.security.util.AuthorizeUtil;
+import com.example.CRM.common.service.OTPService;
+import com.example.CRM.mail.MailAuthen.service.MailService;
 import com.example.CRM.user.user.model.record.UserRecord;
 import com.example.CRM.user.user.model.reponsese.PublicUserDTO;
 import com.example.CRM.user.user.service.UserService;
@@ -40,12 +42,14 @@ public class AuthController {
     private final JWTService jwtService ;
     private final Oauth2Service oauth2Service;
     private final UserService userService;
+    private final OTPService otpService;
 
-    public AuthController(AuthenticateService authenticateService, JWTService jwtService, Oauth2Service oauth2Service, UserService userService) {
+    public AuthController(AuthenticateService authenticateService, JWTService jwtService, Oauth2Service oauth2Service, UserService userService,OTPService otpService) {
         this.authenticateService = authenticateService;
         this.jwtService = jwtService;
         this.oauth2Service = oauth2Service;
         this.userService = userService;
+        this.otpService = otpService;
     }
 
     @PostMapping("/register")
@@ -63,7 +67,6 @@ public class AuthController {
                 .result(authenticationResponse.getToken().getAccesstoken())
                 .build());
         }
-
 
 
     @PostMapping("/login")
@@ -130,26 +133,6 @@ public class AuthController {
                 .build();
     }
 
-//    @PostMapping("/login")
-//    public ApiReponsese<AuthenticationResponse> login(@RequestBody LoginRequest loginRequest) {
-//        return ApiReponsese.<AuthenticationResponse>builder()
-//                .result(authenticateService.authenticate(loginRequest.getEmail(), loginRequest.getPassword()))
-//                .build();
-//    }
-
-//    @PostMapping("/refresh-token")
-//    @SecurityRequirement(name = "bearer-key")
-//    public ApiReponsese<AuthenticationResponse> refreshToken(@RequestHeader("Authorization") String authorizationHeader) throws ParseException, JOSEException, JsonProcessingException {
-//        // Lấy token từ Authorization header (cắt bỏ tiền tố "Bearer ")
-//        String refreshToken = authorizationHeader.startsWith("Bearer ") ? authorizationHeader.substring(7) : authorizationHeader;
-//
-//        AuthenticationResponse newTokens = jwtService.refeshToken(refreshToken);  // Xử lý refresh token và tạo cặp token mới
-//        return ApiReponsese.<AuthenticationResponse>builder()
-//                .result(newTokens)
-//                .build();
-//    }
-
-    // API logout
     @PostMapping("/logout")
     public ApiReponsese<String> logout(@RequestParam UUID userId) {
         authenticateService.Logout(userId);  // Giả sử có dịch vụ để xử lý logout, ví dụ xóa token khỏi Redis.
@@ -182,6 +165,24 @@ public class AuthController {
         return ApiReponsese.<String>builder()
                 .timestamp(DateTimeUtil.now())
                 .result(userService.ForgotPassword(email))
+                .build();
+    }
+
+    @PostMapping("/SendOTP")
+    @PreAuthorize(AuthorizeUtil.NONE)
+    public ApiReponsese<Void> sendOTP(@RequestParam("email") String email){
+        return ApiReponsese.<Void>builder()
+                .timestamp(DateTimeUtil.now())
+                .result(otpService.generateAndSendOTP(email))
+                .build();
+    }
+
+    @PostMapping("/VerifyOTP")
+    @PreAuthorize(AuthorizeUtil.NONE)
+    public ApiReponsese<Boolean> VerifyOTP(@RequestParam("email") String email,@RequestParam("otp") String otp){
+        return ApiReponsese.<Boolean>builder()
+                .timestamp(DateTimeUtil.now())
+                .result(otpService.validateOTP(email,otp))
                 .build();
     }
 }
