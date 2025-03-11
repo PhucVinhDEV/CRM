@@ -73,7 +73,7 @@ public class ApplicationRunnerInitialize {
 
             roleRepository.findByRoleName(RoleNameUtil.ROOT).ifPresent(role -> {
                 User admin = new User("admin@easyjob.com", "Trần Phúc Admin",
-                        passwordEncoder.encode("admin123"), User.StatusVerified.PENDING,
+                        passwordEncoder.encode("admin123"),
                         role, benefitMap.get(BenefitUtil.GOLD));
 
                 if (!userRepository.existsByEmail(admin.getEmail())) {
@@ -84,15 +84,15 @@ public class ApplicationRunnerInitialize {
             roleRepository.findByRoleName(RoleNameUtil.MARKETER).ifPresent(role -> {
                 List<User> marketers = List.of(
                         new User("marketer1@easyjob.com", "Marketer One",
-                                passwordEncoder.encode("mark123"), User.StatusVerified.PENDING,
+                                passwordEncoder.encode("mark123"),
                                 role, benefitMap.get(BenefitUtil.GUEST)),
 
                         new User("marketer2@easyjob.com", "Marketer Two",
-                                passwordEncoder.encode("mark123"), User.StatusVerified.PENDING,
+                                passwordEncoder.encode("mark123"),
                                 role, benefitMap.get(BenefitUtil.SLIVER)),
 
                         new User("marketer3@easyjob.com", "Marketer Three",
-                                passwordEncoder.encode("mark123"), User.StatusVerified.PENDING,
+                                passwordEncoder.encode("mark123"),
                                 role, benefitMap.get(BenefitUtil.GOLD))
                 );
 

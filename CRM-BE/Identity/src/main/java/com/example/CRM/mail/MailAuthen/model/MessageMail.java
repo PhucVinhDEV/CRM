@@ -36,6 +36,7 @@ public class MessageMail {
     @Lob
     @Column(columnDefinition = "TEXT", nullable = false)
     @NotBlank(message = "Vui lòng nhập tin nhắn")
+    @Basic(fetch = FetchType.LAZY)
     String body;
 
     private boolean status;

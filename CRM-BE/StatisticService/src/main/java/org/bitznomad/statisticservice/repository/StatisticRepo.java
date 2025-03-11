@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StatisticRepo extends JpaRepository<Statistic, Long> {
-
+    @Override
+    boolean existsById(Long aLong);
 }

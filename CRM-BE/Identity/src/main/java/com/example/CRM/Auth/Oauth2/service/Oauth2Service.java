@@ -94,7 +94,7 @@ class Oauth2ServiceImpl implements Oauth2Service {
                             .email(userInfo.getEmail())
                             .avatar(userInfo.getPicture())
                             .password(null)
-                            .fullName(userInfo.getFamilyName()+ " " + userInfo.getGivenName() + " " + userInfo.getName())
+                            .fullName(userInfo.getFamilyName()+ " " + userInfo.getGivenName() )
                             .role(roleRepository.findByRoleName(RoleNameUtil.MARKETER).orElseThrow(
                                     () -> new RuntimeException("role not found")
                             ))

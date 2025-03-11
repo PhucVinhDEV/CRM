@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import lombok.experimental.UtilityClass;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @SuperBuilder
@@ -60,9 +61,6 @@ public class User extends BaseEntityUUID {
     @Column(name = UserEntity.USED_CUSTOMER)
     private Integer usedCustomer;
 
-    @Enumerated(EnumType.STRING) // Lưu dưới dạng chuỗi trong DB
-    @Column(name = UserEntity.STATUS_VERIFIED)
-    private StatusVerified statusVerified;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = JoinTableUtil.USER_MAPPED_BY_ROLE, nullable = true) // Tên cột khóa ngoại trong bảng User
@@ -72,11 +70,11 @@ public class User extends BaseEntityUUID {
     @JoinColumn(name = JoinTableUtil.USER_MAPPED_BY_BENEFIT, nullable = true) // Tên cột khóa ngoại trong bảng User
     private Benefit benefit;
 
-    public User(String email,String fullName, String password,StatusVerified statusVerified, Role role, Benefit benefit) {
+
+    public User(String email,String fullName, String password, Role role, Benefit benefit) {
         this.email = email;
         this.fullName = fullName;
         this.password = password;
-        this.statusVerified = statusVerified;
         this.role = role;
         this.benefit = benefit;
     }

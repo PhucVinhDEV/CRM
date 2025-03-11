@@ -1,6 +1,7 @@
 package com.example.CRM.Auth.security.controller;
 import com.example.CRM.Auth.Oauth2.service.Oauth2Service;
 import com.example.CRM.Auth.security.util.AuthorizeUtil;
+import com.example.CRM.common.model.VerifyOtpRequest;
 import com.example.CRM.common.service.OTPService;
 import com.example.CRM.mail.MailAuthen.service.MailService;
 import com.example.CRM.user.user.model.record.UserRecord;
@@ -170,7 +171,8 @@ public class AuthController {
 
     @PostMapping("/SendOTP")
     @PreAuthorize(AuthorizeUtil.NONE)
-    public ApiReponsese<Void> sendOTP(@RequestParam("email") String email){
+    public ApiReponsese<Void> sendOTP(@RequestBody Map<String, String> payload){
+        String email = payload.get("email");
         return ApiReponsese.<Void>builder()
                 .timestamp(DateTimeUtil.now())
                 .result(otpService.generateAndSendOTP(email))
@@ -179,10 +181,10 @@ public class AuthController {
 
     @PostMapping("/VerifyOTP")
     @PreAuthorize(AuthorizeUtil.NONE)
-    public ApiReponsese<Boolean> VerifyOTP(@RequestParam("email") String email,@RequestParam("otp") String otp){
+    public ApiReponsese<Boolean> VerifyOTP(@RequestBody VerifyOtpRequest verifyOtpRequest){
         return ApiReponsese.<Boolean>builder()
                 .timestamp(DateTimeUtil.now())
-                .result(otpService.validateOTP(email,otp))
+                .result(otpService.validateOTP(verifyOtpRequest))
                 .build();
     }
 }
